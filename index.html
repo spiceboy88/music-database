@@ -60,12 +60,75 @@
 
         .card {
             background: #1d1d1d;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .card h3 {
-            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .album-header {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .album-cover {
+            width: 280px;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .tracklist {
+            background: #1d1d1d;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .track {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .track:last-child {
+            border-bottom: none;
+        }
+
+        .track-number {
+            width: 45px;
+            color: #888;
+        }
+
+        .track-title {
+            flex: 1;
+        }
+
+        .duration {
+            color: #888;
         }
 
         .loading {
@@ -74,6 +137,21 @@
 
         .error {
             color: #ff7777;
+        }
+
+        @media (max-width: 600px) {
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .album-header {
+                flex-direction: column;
+            }
+
+            .album-cover {
+                width: 220px;
+            }
         }
     </style>
 </head>
@@ -89,16 +167,18 @@
     </p>
 
     <div class="search">
+
         <input
             id="searchInput"
             type="text"
             placeholder="Cerca artista..."
         >
+
     </div>
 
 </header>
 
-<main>
+<main id="main">
 
     <section class="section">
 
@@ -112,22 +192,74 @@
 
 </main>
 
+
 <script>
 
 const SUPABASE_URL =
     "https://rueoqgbqvaumqdexhmtl.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
+    "LA_TUA_PUBLISHABLE_KEY";
 
-const artistsContainer =
-    document.getElementById("artists");
+
+const main =
+    document.getElementById("main");
 
 const searchInput =
     document.getElementById("searchInput");
 
 
+function headers() {
+
+    return {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`
+    };
+
+}
+
+
+function escapeHtml(text) {
+
+    return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+function formatDuration(ms) {
+
+    if (!ms) {
+        return "";
+    }
+
+    const totalSeconds =
+        Math.floor(ms / 1000);
+
+    const minutes =
+        Math.floor(totalSeconds / 60);
+
+    const seconds =
+        String(totalSeconds % 60)
+        .padStart(2, "0");
+
+    return `${minutes}:${seconds}`;
+
+}
+
+
+/* ----------------------------------
+   ARTISTI
+---------------------------------- */
+
 async function loadArtists(search = "") {
+
+    const artistsContainer =
+        document.getElementById("artists");
 
     artistsContainer.innerHTML =
         '<p class="loading">Caricamento...</p>';
@@ -144,24 +276,17 @@ async function loadArtists(search = "") {
 
     try {
 
-        const response = await fetch(url, {
-
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": `Bearer ${SUPABASE_KEY}`
-            }
-
-        });
+        const response =
+            await fetch(url, {
+                headers: headers()
+            });
 
         if (!response.ok) {
-
-            throw new Error(
-                "Errore nella connessione a Supabase"
-            );
-
+            throw new Error("Errore nella connessione a Supabase");
         }
 
-        const artists = await response.json();
+        const artists =
+            await response.json();
 
         artistsContainer.innerHTML = "";
 
@@ -181,19 +306,18 @@ async function loadArtists(search = "") {
             card.className = "card";
 
             card.innerHTML = `
-    <h3>
-        <a href="?artist=${encodeURIComponent(artist.id)}"
-           style="color:white;text-decoration:none;">
-            ${escapeHtml(artist.name)}
-        </a>
-    </h3>
+                <h3>${escapeHtml(artist.name)}</h3>
+                <p>
+                    ${escapeHtml(
+                        artist.disambiguation || "Artist"
+                    )}
+                </p>
+            `;
 
-    <p>
-        ${escapeHtml(
-            artist.disambiguation || "Artist"
-        )}
-    </p>
-`;
+            card.addEventListener(
+                "click",
+                () => loadArtistPage(artist.id)
+            );
 
             artistsContainer.appendChild(card);
 
@@ -202,24 +326,358 @@ async function loadArtists(search = "") {
     } catch (error) {
 
         artistsContainer.innerHTML =
-            `<p class="error">${error.message}</p>`;
+            `<p class="error">${escapeHtml(error.message)}</p>`;
 
     }
 
 }
 
 
-function escapeHtml(text) {
+/* ----------------------------------
+   PAGINA ARTISTA
+---------------------------------- */
 
-    return String(text)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+async function loadArtistPage(artistId) {
+
+    main.innerHTML =
+        '<p class="loading">Caricamento artista...</p>';
+
+    try {
+
+        const artistResponse =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/artists?id=eq.${artistId}&select=*`,
+                {
+                    headers: headers()
+                }
+            );
+
+        const artists =
+            await artistResponse.json();
+
+        if (!artists.length) {
+
+            main.innerHTML =
+                "<p>Artista non trovato.</p>";
+
+            return;
+        }
+
+        const artist =
+            artists[0];
+
+
+        const releasesResponse =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/releases?artist_id=eq.${artist.id}&select=*&order=release_date.asc`,
+                {
+                    headers: headers()
+                }
+            );
+
+        const releases =
+            await releasesResponse.json();
+
+
+        main.innerHTML = `
+
+            <div
+                class="back"
+                onclick="goHome()"
+            >
+                ← Torna agli artisti
+            </div>
+
+            <section class="section">
+
+                <h2>${escapeHtml(artist.name)}</h2>
+
+                <p>
+                    ${escapeHtml(
+                        artist.disambiguation || ""
+                    )}
+                </p>
+
+                <div
+                    id="releases"
+                    class="cards"
+                ></div>
+
+            </section>
+        `;
+
+
+        const releasesContainer =
+            document.getElementById("releases");
+
+
+        if (releases.length === 0) {
+
+            releasesContainer.innerHTML =
+                "<p>Nessuna release trovata.</p>";
+
+            return;
+        }
+
+
+        releases.forEach(release => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+
+                ${
+                    release.cover_url
+                    ? `
+                        <img
+                            src="${escapeHtml(release.cover_url)}"
+                            alt="${escapeHtml(release.title)}"
+                        >
+                    `
+                    : ""
+                }
+
+                <h3>
+                    ${escapeHtml(release.title)}
+                </h3>
+
+                <p>
+                    ${escapeHtml(
+                        release.release_type || ""
+                    )}
+                </p>
+
+                <p>
+                    ${escapeHtml(
+                        release.release_date || ""
+                    )}
+                </p>
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () => loadReleasePage(release.id)
+            );
+
+
+            releasesContainer.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        main.innerHTML =
+            `<p class="error">${escapeHtml(error.message)}</p>`;
+
+    }
 
 }
 
+
+/* ----------------------------------
+   PAGINA ALBUM + TRACKLIST
+---------------------------------- */
+
+async function loadReleasePage(releaseId) {
+
+    main.innerHTML =
+        '<p class="loading">Caricamento album...</p>';
+
+    try {
+
+        const releaseResponse =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/releases?id=eq.${releaseId}&select=*`,
+                {
+                    headers: headers()
+                }
+            );
+
+        const releases =
+            await releaseResponse.json();
+
+        if (!releases.length) {
+
+            main.innerHTML =
+                "<p>Release non trovata.</p>";
+
+            return;
+        }
+
+        const release =
+            releases[0];
+
+
+        const tracksResponse =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/tracks?release_id=eq.${release.id}&select=*&order=disc_number.asc,track_number.asc`,
+                {
+                    headers: headers()
+                }
+            );
+
+        const tracks =
+            await tracksResponse.json();
+
+
+        main.innerHTML = `
+
+            <div
+                class="back"
+                onclick="goBackToArtist(${release.artist_id})"
+            >
+                ← Torna all'artista
+            </div>
+
+            <section class="section">
+
+                <div class="album-header">
+
+                    ${
+                        release.cover_url
+                        ? `
+                            <img
+                                class="album-cover"
+                                src="${escapeHtml(release.cover_url)}"
+                                alt="${escapeHtml(release.title)}"
+                            >
+                        `
+                        : ""
+                    }
+
+                    <div>
+
+                        <h2>
+                            ${escapeHtml(release.title)}
+                        </h2>
+
+                        <p>
+                            ${escapeHtml(
+                                release.release_type || ""
+                            )}
+                        </p>
+
+                        <p>
+                            ${escapeHtml(
+                                release.release_date || ""
+                            )}
+                        </p>
+
+                        <p>
+                            ${escapeHtml(
+                                release.country || ""
+                            )}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <h2>Tracklist</h2>
+
+                <div class="tracklist">
+
+                    ${
+                        tracks.length
+                        ? tracks.map(track => `
+
+                            <div class="track">
+
+                                <div class="track-number">
+                                    ${escapeHtml(
+                                        track.track_number
+                                    )}
+                                </div>
+
+                                <div class="track-title">
+                                    ${escapeHtml(
+                                        track.title
+                                    )}
+                                </div>
+
+                                <div class="duration">
+                                    ${formatDuration(
+                                        track.duration_ms
+                                    )}
+                                </div>
+
+                            </div>
+
+                        `).join("")
+                        : `
+                            <div class="track">
+                                <div class="track-title">
+                                    Nessuna traccia disponibile.
+                                </div>
+                            </div>
+                        `
+                    }
+
+                </div>
+
+            </section>
+        `;
+
+    } catch (error) {
+
+        main.innerHTML =
+            `<p class="error">${escapeHtml(error.message)}</p>`;
+
+    }
+
+}
+
+
+/* ----------------------------------
+   NAVIGAZIONE
+---------------------------------- */
+
+function goBackToArtist(artistId) {
+
+    loadArtistPage(artistId);
+
+}
+
+
+function goHome() {
+
+    window.history.pushState(
+        {},
+        "",
+        window.location.pathname
+    );
+
+    main.innerHTML = `
+
+        <section class="section">
+
+            <h2>Artisti</h2>
+
+            <div
+                id="artists"
+                class="cards"
+            >
+                <p class="loading">
+                    Caricamento artisti...
+                </p>
+            </div>
+
+        </section>
+    `;
+
+    loadArtists();
+
+}
+
+
+/* ----------------------------------
+   RICERCA
+---------------------------------- */
 
 searchInput.addEventListener(
     "input",
@@ -227,103 +685,27 @@ searchInput.addEventListener(
 );
 
 
-async function loadArtistPage(artistId) {
-
-    const artistResponse = await fetch(
-        `${SUPABASE_URL}/rest/v1/artists?id=eq.${artistId}&select=*`,
-        {
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": `Bearer ${SUPABASE_KEY}`
-            }
-        }
-    );
-
-    const artists = await artistResponse.json();
-
-    if (!artists.length) {
-        return;
-    }
-
-    const artist = artists[0];
-
-    const releasesResponse = await fetch(
-        `${SUPABASE_URL}/rest/v1/releases?artist_id=eq.${artist.id}&select=*&order=release_date.asc`,
-        {
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": `Bearer ${SUPABASE_KEY}`
-            }
-        }
-    );
-
-    const releases = await releasesResponse.json();
-
-    document.querySelector("main").innerHTML = `
-        <section class="section">
-
-            <h2>${escapeHtml(artist.name)}</h2>
-
-            <p>
-                ${escapeHtml(
-                    artist.disambiguation || ""
-                )}
-            </p>
-
-            <div class="cards" id="releases"></div>
-
-        </section>
-    `;
-
-    const releasesContainer =
-        document.getElementById("releases");
-
-    releases.forEach(release => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            ${
-                release.cover_url
-                ? `<img src="${release.cover_url}"
-                        style="width:100%;border-radius:8px;margin-bottom:15px;">`
-                : ""
-            }
-
-            <h3>
-                ${escapeHtml(release.title)}
-            </h3>
-
-            <p>
-                ${escapeHtml(
-                    release.release_type || ""
-                )}
-            </p>
-
-            <p>
-                ${escapeHtml(
-                    release.release_date || ""
-                )}
-            </p>
-        `;
-
-        releasesContainer.appendChild(card);
-
-    });
-
-}
-
+/* ----------------------------------
+   AVVIO
+---------------------------------- */
 
 const params =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
 const artistId =
     params.get("artist");
 
-if (artistId) {
+const releaseId =
+    params.get("release");
+
+
+if (releaseId) {
+
+    loadReleasePage(releaseId);
+
+} else if (artistId) {
 
     loadArtistPage(artistId);
 
