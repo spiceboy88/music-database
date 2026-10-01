@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Music Database</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+        header {
+            padding: 60px 20px;
+            text-align: center;
+            background: #181818;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #aaa;
+        }
+
+        .search {
+            margin-top: 30px;
+        }
+
+        input {
+            width: 80%;
+            max-width: 600px;
+            padding: 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #1d1d1d;
+            padding: 25px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>Music Database</h1>
+
+    <p>
+        Artists, albums, singles, releases, tracks and artwork
+    </p>
+
+    <div class="search">
+        <input
+            type="text"
+            placeholder="Cerca artista, album o brano..."
+        >
+    </div>
+
+</header>
+
+<main>
+
+    <section class="section">
+
+        <h2>Artisti</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Madonna</h3>
+                <p>Discography</p>
+            </div>
+
+            <div class="card">
+                <h3>Britney Spears</h3>
+                <p>Discography</p>
+            </div>
+
+            <div class="card">
+                <h3>Melanie C</h3>
+                <p>Discography</p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
