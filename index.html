@@ -181,13 +181,19 @@ async function loadArtists(search = "") {
             card.className = "card";
 
             card.innerHTML = `
-                <h3>${escapeHtml(artist.name)}</h3>
-                <p>
-                    ${escapeHtml(
-                        artist.disambiguation || "Artist"
-                    )}
-                </p>
-            `;
+    <h3>
+        <a href="?artist=${encodeURIComponent(artist.id)}"
+           style="color:white;text-decoration:none;">
+            ${escapeHtml(artist.name)}
+        </a>
+    </h3>
+
+    <p>
+        ${escapeHtml(
+            artist.disambiguation || "Artist"
+        )}
+    </p>
+`;
 
             artistsContainer.appendChild(card);
 
