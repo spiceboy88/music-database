@@ -63,6 +63,18 @@
             padding: 25px;
             border-radius: 10px;
         }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .loading {
+            color: #aaa;
+        }
+
+        .error {
+            color: #ff7777;
+        }
     </style>
 </head>
 
@@ -78,8 +90,9 @@
 
     <div class="search">
         <input
+            id="searchInput"
             type="text"
-            placeholder="Cerca artista, album o brano..."
+            placeholder="Cerca artista..."
         >
     </div>
 
@@ -91,28 +104,126 @@
 
         <h2>Artisti</h2>
 
-        <div class="cards">
-
-            <div class="card">
-                <h3>Madonna</h3>
-                <p>Discography</p>
-            </div>
-
-            <div class="card">
-                <h3>Britney Spears</h3>
-                <p>Discography</p>
-            </div>
-
-            <div class="card">
-                <h3>Melanie C</h3>
-                <p>Discography</p>
-            </div>
-
+        <div id="artists" class="cards">
+            <p class="loading">Caricamento artisti...</p>
         </div>
 
     </section>
 
 </main>
+
+<script>
+
+const SUPABASE_URL =
+    "https://rueoqgbqvaumqdexhmtl.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
+
+const artistsContainer =
+    document.getElementById("artists");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+async function loadArtists(search = "") {
+
+    artistsContainer.innerHTML =
+        '<p class="loading">Caricamento...</p>';
+
+    let url =
+        `${SUPABASE_URL}/rest/v1/artists?select=*&order=name.asc`;
+
+    if (search.trim() !== "") {
+
+        url +=
+            `&name=ilike.*${encodeURIComponent(search)}*`;
+
+    }
+
+    try {
+
+        const response = await fetch(url, {
+
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`
+            }
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Errore nella connessione a Supabase"
+            );
+
+        }
+
+        const artists = await response.json();
+
+        artistsContainer.innerHTML = "";
+
+        if (artists.length === 0) {
+
+            artistsContainer.innerHTML =
+                "<p>Nessun artista trovato.</p>";
+
+            return;
+        }
+
+        artists.forEach(artist => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+                <h3>${escapeHtml(artist.name)}</h3>
+                <p>
+                    ${escapeHtml(
+                        artist.disambiguation || "Artist"
+                    )}
+                </p>
+            `;
+
+            artistsContainer.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        artistsContainer.innerHTML =
+            `<p class="error">${error.message}</p>`;
+
+    }
+
+}
+
+
+function escapeHtml(text) {
+
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+searchInput.addEventListener(
+    "input",
+    () => loadArtists(searchInput.value)
+);
+
+
+loadArtists();
+
+</script>
 
 </body>
 </html>
