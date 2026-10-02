@@ -596,13 +596,25 @@ async function loadArtistPage(artistId) {
            DIVISIONE ALBUM / SINGOLI
         ------------------------------------------------- */
 
-        const albums =
-            releases.filter(
-                release =>
-                    String(
-                        release.release_type || ""
-                    ).toLowerCase() === "album"
-            );
+        const albums = releases.filter(
+    release =>
+        String(release.release_type || "").toLowerCase() === "album"
+);
+
+const singles = releases.filter(
+    release =>
+        String(release.release_type || "").toLowerCase() === "single"
+);
+
+const live = releases.filter(
+    release =>
+        String(release.release_type || "").toLowerCase() === "live"
+);
+
+const compilations = releases.filter(
+    release =>
+        String(release.release_type || "").toLowerCase() === "compilation"
+);
 
         const singles =
             releases.filter(
