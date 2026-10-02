@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -14,73 +15,66 @@
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f5f5f5;
+            background: #f5f5f7;
             color: #111;
         }
 
         header {
             background: #111;
             color: white;
-            padding: 30px 20px;
+            padding: 25px 20px;
             text-align: center;
         }
 
         header h1 {
-            margin: 0 0 8px;
+            margin: 0 0 15px;
             font-size: 32px;
         }
 
-        header p {
-            margin: 0;
-            color: #bbb;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
         .search-box {
-            margin-bottom: 30px;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        #searchInput {
+        .search-box input {
             width: 100%;
-            padding: 15px 18px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 10px;
             font-size: 16px;
             outline: none;
         }
 
-        #searchInput:focus {
-            border-color: #111;
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
         }
 
-        .status {
-            margin: 15px 0;
+        .message {
+            text-align: center;
+            padding: 30px 10px;
             color: #666;
         }
 
         .artists-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
+            gap: 22px;
         }
 
         .artist-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 14px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #e5e5e5;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
 
         .artist-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.13);
         }
 
         .artist-card img {
@@ -88,10 +82,9 @@
             aspect-ratio: 1 / 1;
             object-fit: cover;
             display: block;
-            background: #ddd;
         }
 
-        .artist-card-content {
+        .artist-card-info {
             padding: 15px;
         }
 
@@ -100,18 +93,43 @@
             font-size: 18px;
         }
 
+        .artist-header {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .artist-header img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .artist-header h2 {
+            margin: 0 0 10px;
+            font-size: 36px;
+        }
+
         .artist-info {
-            display: none;
+            color: #555;
+            line-height: 1.6;
         }
 
         .back-button {
             display: inline-block;
-            margin-bottom: 25px;
-            padding: 10px 16px;
+            margin-bottom: 20px;
             border: none;
-            border-radius: 7px;
             background: #111;
             color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
         }
@@ -120,63 +138,35 @@
             background: #333;
         }
 
-        .artist-header {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 35px;
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .artist-header img {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            background: #ddd;
-        }
-
-        .artist-header h2 {
-            margin: 0 0 10px;
-            font-size: 32px;
-        }
-
-        .artist-header p {
-            margin: 5px 0;
-            color: #666;
-        }
-
         .release-section {
-            margin-bottom: 45px;
+            margin-bottom: 40px;
         }
 
-        .release-section h3 {
-            font-size: 24px;
-            margin-bottom: 18px;
-            border-bottom: 2px solid #111;
+        .release-section h2 {
+            font-size: 25px;
+            margin: 0 0 18px;
             padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
         }
 
         .releases-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
             gap: 20px;
         }
 
         .release-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            border: 1px solid #e5e5e5;
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .release-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
 
         .release-card img {
@@ -187,71 +177,86 @@
             background: #ddd;
         }
 
-        .release-card-content {
-            padding: 13px;
+        .release-card-info {
+            padding: 14px;
         }
 
-        .release-card h4 {
-            margin: 0 0 7px;
-            font-size: 16px;
+        .release-card h3 {
+            margin: 0 0 8px;
+            font-size: 17px;
         }
 
-        .release-card p {
-            margin: 3px 0;
+        .release-date {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .release-type {
+            color: #555;
             font-size: 13px;
-            color: #666;
+            margin-top: 5px;
         }
 
-        .release-details {
+        .release-detail {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
         }
 
-        .release-main {
+        .release-detail-header {
             display: flex;
-            gap: 30px;
+            gap: 25px;
+            align-items: flex-start;
             margin-bottom: 35px;
         }
 
-        .release-main img {
-            width: 280px;
-            height: 280px;
+        .release-detail-header img {
+            width: 250px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 10px;
             background: #ddd;
+            flex-shrink: 0;
         }
 
-        .release-main h2 {
-            margin-top: 0;
-            font-size: 30px;
+        .release-detail h2 {
+            margin: 0 0 12px;
+            font-size: 32px;
         }
 
-        .release-meta p {
-            margin: 8px 0;
+        .release-meta {
             color: #555;
+            line-height: 1.8;
         }
 
         .tracklist h3 {
-            border-bottom: 2px solid #111;
-            padding-bottom: 10px;
+            margin: 0 0 15px;
+            font-size: 22px;
         }
 
         .track {
-            display: grid;
-            grid-template-columns: 45px 1fr 80px;
-            gap: 10px;
-            padding: 12px 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 10px;
             border-bottom: 1px solid #eee;
         }
 
         .track-number {
-            color: #888;
+            width: 35px;
+            color: #777;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .track-title {
+            flex: 1;
         }
 
         .track-duration {
-            text-align: right;
-            color: #666;
+            color: #777;
+            font-variant-numeric: tabular-nums;
         }
 
         .hidden {
@@ -259,24 +264,38 @@
         }
 
         @media (max-width: 700px) {
-            .artist-header,
-            .release-main {
-                flex-direction: column;
-            }
-
-            .artist-header img,
-            .release-main img {
-                width: 100%;
-                height: auto;
-                max-width: 280px;
-            }
-
-            .artist-header h2 {
+            header h1 {
                 font-size: 26px;
             }
 
-            .release-main h2 {
-                font-size: 25px;
+            .artist-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .artist-header img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .artist-header h2 {
+                font-size: 28px;
+            }
+
+            .release-detail-header {
+                flex-direction: column;
+            }
+
+            .release-detail-header img {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                margin: 0 auto;
+            }
+
+            .release-detail {
+                padding: 18px;
             }
         }
     </style>
@@ -286,34 +305,33 @@
 
 <header>
     <h1>Music Database</h1>
-    <p>Artists, albums, singles, live albums and compilations</p>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Cerca un artista..."
+            autocomplete="off"
+        >
+    </div>
 </header>
 
-<div class="container">
+<main>
 
+    <!-- ARTISTI -->
     <section id="artistsView">
-
-        <div class="search-box">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Cerca un artista..."
-            >
-        </div>
-
-        <div id="status" class="status">
+        <div id="artistsMessage" class="message">
             Caricamento artisti...
         </div>
 
         <div id="artistsGrid" class="artists-grid"></div>
-
     </section>
 
-
+    <!-- ARTISTA -->
     <section id="artistView" class="hidden">
 
-        <button class="back-button" onclick="showArtists()">
-            ← Torna agli artisti
+        <button class="back-button" id="backToArtists">
+            ← Tutti gli artisti
         </button>
 
         <div id="artistHeader"></div>
@@ -322,19 +340,18 @@
 
     </section>
 
-
+    <!-- RELEASE -->
     <section id="releaseView" class="hidden">
 
-        <button class="back-button" onclick="backToArtist()">
-            ← Torna alla discografia
+        <button class="back-button" id="backToArtist">
+            ← Torna all'artista
         </button>
 
-        <div id="releaseDetails"></div>
+        <div id="releaseDetail"></div>
 
     </section>
 
-</div>
-
+</main>
 
 <script>
 
@@ -345,18 +362,51 @@ const SUPABASE_KEY =
     "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
 
 
-let allArtists = [];
+const artistsView =
+    document.getElementById("artistsView");
+
+const artistView =
+    document.getElementById("artistView");
+
+const releaseView =
+    document.getElementById("releaseView");
+
+const artistsGrid =
+    document.getElementById("artistsGrid");
+
+const artistsMessage =
+    document.getElementById("artistsMessage");
+
+const artistHeader =
+    document.getElementById("artistHeader");
+
+const releasesContainer =
+    document.getElementById("releasesContainer");
+
+const releaseDetail =
+    document.getElementById("releaseDetail");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const backToArtists =
+    document.getElementById("backToArtists");
+
+const backToArtist =
+    document.getElementById("backToArtist");
+
+
 let currentArtist = null;
 
 
 /* =========================
-   SUPABASE REQUEST
+   SUPABASE
 ========================= */
 
-async function supabaseFetch(endpoint) {
+async function supabaseFetch(path) {
 
     const response = await fetch(
-        SUPABASE_URL + endpoint,
+        SUPABASE_URL + path,
         {
             headers: {
                 "apikey": SUPABASE_KEY,
@@ -366,11 +416,15 @@ async function supabaseFetch(endpoint) {
     );
 
     if (!response.ok) {
+
+        const errorText =
+            await response.text();
+
         throw new Error(
-            "Errore Supabase: " +
+            "Supabase error: " +
             response.status +
             " " +
-            await response.text()
+            errorText
         );
     }
 
@@ -379,46 +433,171 @@ async function supabaseFetch(endpoint) {
 
 
 /* =========================
-   ARTISTI
+   SICUREZZA HTML
+========================= */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================
+   PLACEHOLDER
+========================= */
+
+function placeholderImage(text) {
+
+    return (
+        "https://placehold.co/600x600/" +
+        "eeeeee/555555?text=" +
+        encodeURIComponent(text || "No Image")
+    );
+}
+
+
+/* =========================
+   DURATA
+========================= */
+
+function formatDuration(duration) {
+
+    if (!duration) {
+        return "";
+    }
+
+    return duration;
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatReleaseDate(date) {
+
+    if (!date) {
+        return "";
+    }
+
+    const value = String(date);
+
+    if (/^\d{4}-01-01$/.test(value)) {
+        return value.substring(0, 4);
+    }
+
+    if (/^\d{4}-\d{2}-01$/.test(value)) {
+        return value.substring(0, 7);
+    }
+
+    return value;
+}
+
+
+/* =========================
+   NORMALIZZA CATEGORIA
+========================= */
+
+function normalizeReleaseType(type) {
+
+    const value =
+        String(type || "")
+            .trim()
+            .toLowerCase();
+
+    if (value === "album") {
+        return "Album";
+    }
+
+    if (
+        value === "single" ||
+        value === "singolo" ||
+        value === "singoli"
+    ) {
+        return "Singoli";
+    }
+
+    if (value === "live") {
+        return "Live";
+    }
+
+    if (value === "compilation") {
+        return "Compilation";
+    }
+
+    if (
+        value === "ost" ||
+        value === "soundtrack" ||
+        value === "soundtrack album"
+    ) {
+        return "OST";
+    }
+
+    if (
+        value === "remix album" ||
+        value === "remix" ||
+        value === "remixes"
+    ) {
+        return "Remix Album";
+    }
+
+    return value
+        ? String(type)
+        : "Album";
+}
+
+
+/* =========================
+   CARICAMENTO ARTISTI
 ========================= */
 
 async function loadArtists() {
 
-    const status =
-        document.getElementById("status");
-
     try {
 
-        allArtists = await supabaseFetch(
-            "/rest/v1/artists?select=*&order=name.asc"
+        const artists = await supabaseFetch(
+            "/rest/v1/artists" +
+            "?select=*" +
+            "&order=name.asc"
         );
 
-        renderArtists(allArtists);
-
-        status.textContent =
-            `${allArtists.length} artisti`;
+        renderArtists(artists);
 
     } catch (error) {
 
         console.error(error);
 
-        status.textContent =
+        artistsMessage.textContent =
             "Errore nel caricamento degli artisti.";
     }
 }
 
 
+/* =========================
+   RENDER ARTISTI
+========================= */
+
 function renderArtists(artists) {
 
-    const grid =
-        document.getElementById("artistsGrid");
+    artistsMessage.classList.add("hidden");
 
-    grid.innerHTML = "";
+    artistsGrid.innerHTML = "";
 
     if (!artists.length) {
 
-        grid.innerHTML =
-            "<p>Nessun artista trovato.</p>";
+        artistsMessage.textContent =
+            "Nessun artista trovato.";
+
+        artistsMessage.classList.remove("hidden");
 
         return;
     }
@@ -428,94 +607,60 @@ function renderArtists(artists) {
         const card =
             document.createElement("div");
 
-        card.className =
-            "artist-card";
-
-        card.onclick = () =>
-            showArtist(artist);
+        card.className = "artist-card";
 
         const image =
             artist.image_url ||
-            "https://via.placeholder.com/500?text=Artist";
+            placeholderImage(artist.name);
 
         card.innerHTML = `
             <img
                 src="${escapeHtml(image)}"
                 alt="${escapeHtml(artist.name)}"
+                loading="lazy"
             >
 
-            <div class="artist-card-content">
-
+            <div class="artist-card-info">
                 <h3>
                     ${escapeHtml(artist.name)}
                 </h3>
-
             </div>
         `;
 
-        grid.appendChild(card);
+        card.addEventListener(
+            "click",
+            () => showArtist(artist)
+        );
+
+        artistsGrid.appendChild(card);
     });
 }
 
 
 /* =========================
-   RICERCA
-========================= */
-
-document
-    .getElementById("searchInput")
-    .addEventListener("input", function() {
-
-        const query =
-            this.value
-                .toLowerCase()
-                .trim();
-
-        const filtered =
-            allArtists.filter(artist =>
-                String(artist.name || "")
-                    .toLowerCase()
-                    .includes(query)
-            );
-
-        renderArtists(filtered);
-
-        document.getElementById("status")
-            .textContent =
-            `${filtered.length} artisti`;
-    });
-
-
-/* =========================
-   ARTISTA
+   MOSTRA ARTISTA
 ========================= */
 
 async function showArtist(artist) {
 
     currentArtist = artist;
 
-    document
-        .getElementById("artistsView")
-        .classList.add("hidden");
+    artistsView.classList.add("hidden");
 
-    document
-        .getElementById("releaseView")
-        .classList.add("hidden");
+    releaseView.classList.add("hidden");
 
-    document
-        .getElementById("artistView")
-        .classList.remove("hidden");
+    artistView.classList.remove("hidden");
 
-
-    const header =
-        document.getElementById("artistHeader");
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
     const image =
         artist.image_url ||
-        "https://via.placeholder.com/500?text=Artist";
+        placeholderImage(artist.name);
 
-
-    header.innerHTML = `
+    artistHeader.innerHTML = `
         <div class="artist-header">
 
             <img
@@ -529,54 +674,61 @@ async function showArtist(artist) {
                     ${escapeHtml(artist.name)}
                 </h2>
 
-                ${
-                    artist.country
-                    ? `<p><strong>Paese:</strong> ${escapeHtml(artist.country)}</p>`
-                    : ""
-                }
+                <div class="artist-info">
 
-                ${
-                    artist.area
-                    ? `<p><strong>Area:</strong> ${escapeHtml(artist.area)}</p>`
-                    : ""
-                }
+                    ${
+                        artist.country
+                        ? `<div><strong>Paese:</strong>
+                           ${escapeHtml(artist.country)}</div>`
+                        : ""
+                    }
 
-                ${
-                    artist.gender
-                    ? `<p><strong>Genere:</strong> ${escapeHtml(artist.gender)}</p>`
-                    : ""
-                }
+                    ${
+                        artist.area
+                        ? `<div><strong>Area:</strong>
+                           ${escapeHtml(artist.area)}</div>`
+                        : ""
+                    }
 
-                ${
-                    artist.birth_date
-                    ? `<p><strong>Nascita:</strong> ${escapeHtml(artist.birth_date)}</p>`
-                    : ""
-                }
+                    ${
+                        artist.gender
+                        ? `<div><strong>Genere:</strong>
+                           ${escapeHtml(artist.gender)}</div>`
+                        : ""
+                    }
 
-                ${
-                    artist.birth_place
-                    ? `<p><strong>Luogo di nascita:</strong> ${escapeHtml(artist.birth_place)}</p>`
-                    : ""
-                }
+                    ${
+                        artist.birth_date
+                        ? `<div><strong>Nascita:</strong>
+                           ${escapeHtml(artist.birth_date)}</div>`
+                        : ""
+                    }
 
-                ${
-                    artist.disambiguation
-                    ? `<p>${escapeHtml(artist.disambiguation)}</p>`
-                    : ""
-                }
+                    ${
+                        artist.birth_place
+                        ? `<div><strong>Luogo di nascita:</strong>
+                           ${escapeHtml(artist.birth_place)}</div>`
+                        : ""
+                    }
+
+                    ${
+                        artist.disambiguation
+                        ? `<div><strong>Info:</strong>
+                           ${escapeHtml(artist.disambiguation)}</div>`
+                        : ""
+                    }
+
+                </div>
 
             </div>
 
         </div>
     `;
 
-
-    const container =
-        document.getElementById("releasesContainer");
-
-    container.innerHTML =
-        "<p class='status'>Caricamento discografia...</p>";
-
+    releasesContainer.innerHTML =
+        `<div class="message">
+            Caricamento discografia...
+        </div>`;
 
     try {
 
@@ -589,84 +741,118 @@ async function showArtist(artist) {
                 "&order=release_date.asc.nullslast,title.asc"
             );
 
-
         renderReleases(releases);
 
     } catch (error) {
 
         console.error(error);
 
-        container.innerHTML =
-            "<p>Errore nel caricamento della discografia.</p>";
+        releasesContainer.innerHTML =
+            `<div class="message">
+                Errore nel caricamento della discografia.
+            </div>`;
     }
 }
 
 
 /* =========================
-   DISCOGRAFIA
+   RENDER DISCOGRAFIA
 ========================= */
 
 function renderReleases(releases) {
 
-    const container =
-        document.getElementById("releasesContainer");
+    releasesContainer.innerHTML = "";
 
-    container.innerHTML = "";
+    if (!releases.length) {
 
+        releasesContainer.innerHTML =
+            `<div class="message">
+                Nessuna release trovata.
+            </div>`;
 
-    const albums =
-        releases.filter(release =>
-            String(release.release_type || "")
-                .toLowerCase() === "album"
-        );
-
-
-    const singles =
-        releases.filter(release =>
-            String(release.release_type || "")
-                .toLowerCase() === "single"
-        );
+        return;
+    }
 
 
-    const live =
-        releases.filter(release =>
-            String(release.release_type || "")
-                .toLowerCase() === "live"
-        );
+    const albums = [];
+
+    const singles = [];
+
+    const live = [];
+
+    const compilations = [];
+
+    const ost = [];
+
+    const remixAlbums = [];
 
 
-    const compilations =
-        releases.filter(release =>
-            String(release.release_type || "")
-                .toLowerCase() === "compilation"
-        );
+    releases.forEach(release => {
+
+        const category =
+            normalizeReleaseType(
+                release.release_type
+            );
+
+        if (category === "Album") {
+
+            albums.push(release);
+
+        } else if (category === "Singoli") {
+
+            singles.push(release);
+
+        } else if (category === "Live") {
+
+            live.push(release);
+
+        } else if (category === "Compilation") {
+
+            compilations.push(release);
+
+        } else if (category === "OST") {
+
+            ost.push(release);
+
+        } else if (category === "Remix Album") {
+
+            remixAlbums.push(release);
+
+        } else {
+
+            albums.push(release);
+        }
+    });
 
 
     renderReleaseSection(
-        container,
         "Album",
         albums
     );
 
-
     renderReleaseSection(
-        container,
         "Singoli",
         singles
     );
 
-
     renderReleaseSection(
-        container,
         "Live",
         live
     );
 
-
     renderReleaseSection(
-        container,
         "Compilation",
         compilations
+    );
+
+    renderReleaseSection(
+        "OST",
+        ost
+    );
+
+    renderReleaseSection(
+        "Remix Album",
+        remixAlbums
     );
 }
 
@@ -676,7 +862,6 @@ function renderReleases(releases) {
 ========================= */
 
 function renderReleaseSection(
-    container,
     title,
     releases
 ) {
@@ -685,20 +870,17 @@ function renderReleaseSection(
         return;
     }
 
-
     const section =
         document.createElement("section");
 
     section.className =
         "release-section";
 
-
     const heading =
-        document.createElement("h3");
+        document.createElement("h2");
 
     heading.textContent =
-        `${title} (${releases.length})`;
-
+        title;
 
     section.appendChild(heading);
 
@@ -718,23 +900,10 @@ function renderReleaseSection(
         card.className =
             "release-card";
 
-        card.onclick = () =>
-            showRelease(release);
-
 
         const image =
             release.cover_url ||
-            "https://via.placeholder.com/500?text=No+Cover";
-
-
-        let date = "";
-
-        if (release.release_date) {
-
-            date =
-                String(release.release_date)
-                    .substring(0, 10);
-        }
+            placeholderImage(release.title);
 
 
         card.innerHTML = `
@@ -742,28 +911,39 @@ function renderReleaseSection(
             <img
                 src="${escapeHtml(image)}"
                 alt="${escapeHtml(release.title)}"
+                loading="lazy"
             >
 
-            <div class="release-card-content">
+            <div class="release-card-info">
 
-                <h4>
+                <h3>
                     ${escapeHtml(release.title)}
-                </h4>
+                </h3>
 
-                ${
-                    date
-                    ? `<p>${escapeHtml(date)}</p>`
-                    : ""
-                }
+                <div class="release-date">
+                    ${escapeHtml(
+                        formatReleaseDate(
+                            release.release_date
+                        )
+                    )}
+                </div>
 
-                ${
-                    release.label
-                    ? `<p>${escapeHtml(release.label)}</p>`
-                    : ""
-                }
+                <div class="release-type">
+                    ${escapeHtml(
+                        normalizeReleaseType(
+                            release.release_type
+                        )
+                    )}
+                </div>
 
             </div>
         `;
+
+
+        card.addEventListener(
+            "click",
+            () => showRelease(release)
+        );
 
 
         grid.appendChild(card);
@@ -772,93 +952,36 @@ function renderReleaseSection(
 
     section.appendChild(grid);
 
-    container.appendChild(section);
+    releasesContainer.appendChild(section);
 }
 
 
 /* =========================
-   RELEASE DETTAGLI
+   MOSTRA RELEASE
 ========================= */
 
 async function showRelease(release) {
 
-    document
-        .getElementById("artistView")
-        .classList.add("hidden");
+    artistView.classList.add("hidden");
 
-    document
-        .getElementById("releaseView")
-        .classList.remove("hidden");
+    releaseView.classList.remove("hidden");
 
-
-    const container =
-        document.getElementById("releaseDetails");
-
-
-    container.innerHTML =
-        "<p>Caricamento release...</p>";
-
-
-    try {
-
-        const tracks =
-            await supabaseFetch(
-                "/rest/v1/tracks" +
-                "?select=*" +
-                "&release_id=eq." +
-                encodeURIComponent(release.id) +
-                "&order=disc_number.asc.nullslast,track_number.asc.nullslast,id.asc"
-            );
-
-
-        renderReleaseDetails(
-            release,
-            tracks
-        );
-
-    } catch (error) {
-
-        console.error(error);
-
-        container.innerHTML =
-            "<p>Errore nel caricamento della tracklist.</p>";
-    }
-}
-
-
-/* =========================
-   DETTAGLI + TRACKLIST
-========================= */
-
-function renderReleaseDetails(
-    release,
-    tracks
-) {
-
-    const container =
-        document.getElementById("releaseDetails");
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 
     const image =
         release.cover_url ||
-        "https://via.placeholder.com/500?text=No+Cover";
+        placeholderImage(release.title);
 
 
-    let date = "";
+    releaseDetail.innerHTML = `
 
-    if (release.release_date) {
+        <div class="release-detail">
 
-        date =
-            String(release.release_date)
-                .substring(0, 10);
-    }
-
-
-    let html = `
-
-        <div class="release-details">
-
-            <div class="release-main">
+            <div class="release-detail-header">
 
                 <img
                     src="${escapeHtml(image)}"
@@ -873,33 +996,66 @@ function renderReleaseDetails(
 
                     <div class="release-meta">
 
-                        ${
-                            release.release_type
-                            ? `<p><strong>Tipo:</strong> ${escapeHtml(release.release_type)}</p>`
-                            : ""
-                        }
+                        <div>
+                            <strong>Tipo:</strong>
+                            ${escapeHtml(
+                                normalizeReleaseType(
+                                    release.release_type
+                                )
+                            )}
+                        </div>
 
                         ${
-                            date
-                            ? `<p><strong>Data:</strong> ${escapeHtml(date)}</p>`
+                            release.release_date
+                            ? `
+                                <div>
+                                    <strong>Data:</strong>
+                                    ${escapeHtml(
+                                        formatReleaseDate(
+                                            release.release_date
+                                        )
+                                    )}
+                                </div>
+                            `
                             : ""
                         }
 
                         ${
                             release.country
-                            ? `<p><strong>Paese:</strong> ${escapeHtml(release.country)}</p>`
+                            ? `
+                                <div>
+                                    <strong>Paese:</strong>
+                                    ${escapeHtml(
+                                        release.country
+                                    )}
+                                </div>
+                            `
                             : ""
                         }
 
                         ${
                             release.label
-                            ? `<p><strong>Label:</strong> ${escapeHtml(release.label)}</p>`
+                            ? `
+                                <div>
+                                    <strong>Label:</strong>
+                                    ${escapeHtml(
+                                        release.label
+                                    )}
+                                </div>
+                            `
                             : ""
                         }
 
                         ${
                             release.catalog_number
-                            ? `<p><strong>Catalogo:</strong> ${escapeHtml(release.catalog_number)}</p>`
+                            ? `
+                                <div>
+                                    <strong>Catalogo:</strong>
+                                    ${escapeHtml(
+                                        release.catalog_number
+                                    )}
+                                </div>
+                            `
                             : ""
                         }
 
@@ -909,79 +1065,12 @@ function renderReleaseDetails(
 
             </div>
 
+            <div id="tracklistContainer"
+                 class="tracklist">
 
-            <div class="tracklist">
-
-                <h3>
-                    Tracklist
-                </h3>
-    `;
-
-
-    if (!tracks.length) {
-
-        html += `
-            <p>
-                Nessuna tracklist disponibile.
-            </p>
-        `;
-
-    } else {
-
-        let currentDisc = null;
-
-
-        tracks.forEach(track => {
-
-            const disc =
-                track.disc_number || 1;
-
-
-            if (
-                currentDisc !== null &&
-                disc !== currentDisc
-            ) {
-
-                html += `
-                    <div style="height:15px;"></div>
-                `;
-            }
-
-
-            currentDisc = disc;
-
-
-            const trackNumber =
-                track.track_number || "";
-
-
-            const duration =
-                formatDuration(track.duration);
-
-
-            html += `
-
-                <div class="track">
-
-                    <div class="track-number">
-                        ${escapeHtml(String(trackNumber))}
-                    </div>
-
-                    <div>
-                        ${escapeHtml(track.title || "")}
-                    </div>
-
-                    <div class="track-duration">
-                        ${escapeHtml(duration)}
-                    </div>
-
+                <div class="message">
+                    Caricamento tracklist...
                 </div>
-            `;
-        });
-    }
-
-
-    html += `
 
             </div>
 
@@ -989,75 +1078,247 @@ function renderReleaseDetails(
     `;
 
 
-    container.innerHTML = html;
+    try {
+
+        const tracks =
+            await supabaseFetch(
+                "/rest/v1/tracks" +
+                "?select=*" +
+                "&release_id=eq." +
+                encodeURIComponent(release.id) +
+                "&order=disc_number.asc,track_number.asc"
+            );
+
+
+        renderTracks(tracks);
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "tracklistContainer"
+        ).innerHTML = `
+            <div class="message">
+                Errore nel caricamento della tracklist.
+            </div>
+        `;
+    }
 }
 
 
 /* =========================
-   DURATA
+   TRACKLIST
 ========================= */
 
-function formatDuration(duration) {
+function renderTracks(tracks) {
 
-    if (!duration) {
-        return "";
+    const container =
+        document.getElementById(
+            "tracklistContainer"
+        );
+
+    if (!tracks.length) {
+
+        container.innerHTML = `
+            <div class="message">
+                Nessuna traccia disponibile.
+            </div>
+        `;
+
+        return;
     }
 
-    return String(duration);
+
+    let html = `
+        <h3>Tracklist</h3>
+    `;
+
+
+    let currentDisc = null;
+
+
+    tracks.forEach(track => {
+
+        const discNumber =
+            track.disc_number || 1;
+
+
+        if (discNumber !== currentDisc) {
+
+            if (currentDisc !== null) {
+                html += `
+                    </div>
+                `;
+            }
+
+            currentDisc =
+                discNumber;
+
+
+            if (
+                tracks.some(
+                    t =>
+                        (t.disc_number || 1) !== 1
+                )
+            ) {
+
+                html += `
+                    <h4>
+                        Disc ${escapeHtml(
+                            discNumber
+                        )}
+                    </h4>
+
+                    <div>
+                `;
+            } else {
+
+                html += `
+                    <div>
+                `;
+            }
+        }
+
+
+        html += `
+
+            <div class="track">
+
+                <div class="track-number">
+                    ${escapeHtml(
+                        track.track_number || ""
+                    )}
+                </div>
+
+                <div class="track-title">
+                    ${escapeHtml(
+                        track.title
+                    )}
+                </div>
+
+                <div class="track-duration">
+                    ${escapeHtml(
+                        formatDuration(
+                            track.duration
+                        )
+                    )}
+                </div>
+
+            </div>
+
+        `;
+    });
+
+
+    if (currentDisc !== null) {
+
+        html += `
+            </div>
+        `;
+    }
+
+
+    container.innerHTML =
+        html;
 }
 
 
 /* =========================
-   TORNA AGLI ARTISTI
+   RICERCA
 ========================= */
 
-function showArtists() {
+searchInput.addEventListener(
+    "input",
+    async function () {
 
-    document
-        .getElementById("artistView")
-        .classList.add("hidden");
+        const query =
+            this.value.trim();
 
-    document
-        .getElementById("releaseView")
-        .classList.add("hidden");
 
-    document
-        .getElementById("artistsView")
-        .classList.remove("hidden");
+        if (!query) {
 
-    currentArtist = null;
-}
+            loadArtists();
+
+            return;
+        }
+
+
+        try {
+
+            const artists =
+                await supabaseFetch(
+                    "/rest/v1/artists" +
+                    "?select=*" +
+                    "&name=ilike.*" +
+                    encodeURIComponent(query) +
+                    "*&order=name.asc"
+                );
+
+
+            renderArtists(artists);
+
+        } catch (error) {
+
+            console.error(error);
+
+            artistsMessage.textContent =
+                "Errore nella ricerca.";
+
+            artistsMessage.classList.remove(
+                "hidden"
+            );
+        }
+    }
+);
 
 
 /* =========================
-   TORNA ALL'ARTISTA
+   BACK
 ========================= */
 
-function backToArtist() {
+backToArtists.addEventListener(
+    "click",
+    function () {
 
-    document
-        .getElementById("releaseView")
-        .classList.add("hidden");
+        artistView.classList.add(
+            "hidden"
+        );
 
-    document
-        .getElementById("artistView")
-        .classList.remove("hidden");
-}
+        releaseView.classList.add(
+            "hidden"
+        );
+
+        artistsView.classList.remove(
+            "hidden"
+        );
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+);
 
 
-/* =========================
-   SICUREZZA HTML
-========================= */
+backToArtist.addEventListener(
+    "click",
+    function () {
 
-function escapeHtml(value) {
+        releaseView.classList.add(
+            "hidden"
+        );
 
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
+        artistView.classList.remove(
+            "hidden"
+        );
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+);
 
 
 /* =========================
@@ -1070,3 +1331,4 @@ loadArtists();
 
 </body>
 </html>
+```
