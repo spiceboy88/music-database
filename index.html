@@ -1,314 +1,342 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Music Database</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #111;
         }
 
         header {
-            padding: 60px 20px;
+            background: #111;
+            color: white;
+            padding: 30px 20px;
             text-align: center;
-            background: #181818;
         }
 
-        h1 {
-            font-size: 42px;
-            margin: 0 0 10px;
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
         }
 
-        h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
+        header p {
+            margin: 0;
+            color: #bbb;
         }
 
-        h3 {
-            margin: 15px 0 8px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
         }
 
-        p {
-            color: #aaa;
+        .search-box {
+            margin-bottom: 30px;
         }
 
-        .search {
-            margin-top: 30px;
-        }
-
-        input {
-            width: 80%;
-            max-width: 600px;
-            padding: 16px;
+        #searchInput {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #ccc;
             border-radius: 8px;
-            border: none;
             font-size: 16px;
             outline: none;
         }
 
-        main {
-            max-width: 1100px;
-            margin: 50px auto;
-            padding: 0 20px;
+        #searchInput:focus {
+            border-color: #111;
         }
 
-        .section {
-            margin-bottom: 60px;
+        .status {
+            margin: 15px 0;
+            color: #666;
         }
 
-        .section-title {
-            font-size: 28px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 12px;
-        }
-
-        .cards {
+        .artists-grid {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fill,
-                minmax(190px, 1fr)
-            );
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
         }
 
-        .card {
-            background: #1d1d1d;
-            padding: 18px;
+        .artist-card {
+            background: white;
             border-radius: 10px;
-            cursor: pointer;
-            transition:
-                transform 0.2s,
-                background 0.2s;
             overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e5e5e5;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            background: #252525;
+        .artist-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
-        .card img {
+        .artist-card img {
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            border-radius: 7px;
             display: block;
+            background: #ddd;
         }
 
-        .artist-card {
-            text-align: center;
+        .artist-card-content {
+            padding: 15px;
         }
 
         .artist-card h3 {
-            margin-bottom: 5px;
+            margin: 0;
+            font-size: 18px;
         }
 
-        .artist-card p {
-            margin-top: 0;
+        .artist-info {
+            display: none;
         }
 
-        .back {
+        .back-button {
             display: inline-block;
-            margin-bottom: 30px;
-            color: #aaa;
+            margin-bottom: 25px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 7px;
+            background: #111;
+            color: white;
             cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background: #333;
+        }
+
+        .artist-header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .artist-header img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #ddd;
+        }
+
+        .artist-header h2 {
+            margin: 0 0 10px;
+            font-size: 32px;
+        }
+
+        .artist-header p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .release-section {
+            margin-bottom: 45px;
+        }
+
+        .release-section h3 {
+            font-size: 24px;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #111;
+            padding-bottom: 10px;
+        }
+
+        .releases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .release-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid #e5e5e5;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .release-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .release-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            background: #ddd;
+        }
+
+        .release-card-content {
+            padding: 13px;
+        }
+
+        .release-card h4 {
+            margin: 0 0 7px;
             font-size: 16px;
         }
 
-        .back:hover {
-            color: white;
+        .release-card p {
+            margin: 3px 0;
+            font-size: 13px;
+            color: #666;
         }
 
-        .artist-description {
-            margin-bottom: 40px;
+        .release-details {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
         }
 
-        .album-header {
+        .release-main {
             display: flex;
-            gap: 35px;
-            align-items: flex-start;
-            margin-bottom: 50px;
+            gap: 30px;
+            margin-bottom: 35px;
         }
 
-        .album-cover {
+        .release-main img {
             width: 280px;
             height: 280px;
             object-fit: cover;
-            border-radius: 10px;
-            flex-shrink: 0;
+            border-radius: 8px;
+            background: #ddd;
         }
 
-        .album-info h2 {
-            font-size: 36px;
+        .release-main h2 {
             margin-top: 0;
-            margin-bottom: 15px;
+            font-size: 30px;
         }
 
-        .album-info p {
+        .release-meta p {
             margin: 8px 0;
+            color: #555;
         }
 
-        .tracklist {
-            background: #1d1d1d;
-            border-radius: 10px;
-            overflow: hidden;
+        .tracklist h3 {
+            border-bottom: 2px solid #111;
+            padding-bottom: 10px;
         }
 
         .track {
             display: grid;
-            grid-template-columns: 60px 1fr 80px;
-            gap: 15px;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #333;
-        }
-
-        .track:last-child {
-            border-bottom: none;
+            grid-template-columns: 45px 1fr 80px;
+            gap: 10px;
+            padding: 12px 5px;
+            border-bottom: 1px solid #eee;
         }
 
         .track-number {
-            color: #777;
-        }
-
-        .track-title {
-            color: white;
-        }
-
-        .duration {
-            color: #777;
-            text-align: right;
-        }
-
-        .loading {
             color: #888;
         }
 
-        .error {
-            color: #ff6b6b;
+        .track-duration {
+            text-align: right;
+            color: #666;
         }
 
-        .empty {
-            color: #777;
-            padding: 20px 0;
+        .hidden {
+            display: none !important;
         }
 
         @media (max-width: 700px) {
-
-            header {
-                padding: 40px 15px;
-            }
-
-            h1 {
-                font-size: 34px;
-            }
-
-            main {
-                margin-top: 35px;
-            }
-
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .card {
-                padding: 12px;
-            }
-
-            .album-header {
+            .artist-header,
+            .release-main {
                 flex-direction: column;
             }
 
-            .album-cover {
+            .artist-header img,
+            .release-main img {
                 width: 100%;
-                max-width: 350px;
                 height: auto;
+                max-width: 280px;
             }
 
-            .album-info h2 {
-                font-size: 30px;
+            .artist-header h2 {
+                font-size: 26px;
             }
 
-            .track {
-                grid-template-columns: 35px 1fr 55px;
-                padding: 13px 12px;
-                gap: 8px;
+            .release-main h2 {
+                font-size: 25px;
             }
-
-            input {
-                width: 100%;
-            }
-
         }
-
     </style>
-
 </head>
 
 <body>
 
 <header>
-
     <h1>Music Database</h1>
-
-    <p>
-        Artists, albums, singles, releases, tracks and artwork
-    </p>
-
-    <div class="search">
-
-        <input
-            id="searchInput"
-            type="text"
-            placeholder="Cerca artista..."
-        >
-
-    </div>
-
+    <p>Artists, albums, singles, live albums and compilations</p>
 </header>
 
-<main id="main">
+<div class="container">
 
-    <section class="section">
+    <section id="artistsView">
 
-        <h2 class="section-title">
-            Artisti
-        </h2>
-
-        <div
-            id="artists"
-            class="cards"
-        >
-
-            <p class="loading">
-                Caricamento artisti...
-            </p>
-
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Cerca un artista..."
+            >
         </div>
+
+        <div id="status" class="status">
+            Caricamento artisti...
+        </div>
+
+        <div id="artistsGrid" class="artists-grid"></div>
 
     </section>
 
-</main>
+
+    <section id="artistView" class="hidden">
+
+        <button class="back-button" onclick="showArtists()">
+            ← Torna agli artisti
+        </button>
+
+        <div id="artistHeader"></div>
+
+        <div id="releasesContainer"></div>
+
+    </section>
+
+
+    <section id="releaseView" class="hidden">
+
+        <button class="back-button" onclick="backToArtist()">
+            ← Torna alla discografia
+        </button>
+
+        <div id="releaseDetails"></div>
+
+    </section>
+
+</div>
+
 
 <script>
-
-/* =========================================================
-   SUPABASE
-========================================================= */
 
 const SUPABASE_URL =
     "https://rueoqgbqvaumqdexhmtl.supabase.co";
@@ -317,59 +345,657 @@ const SUPABASE_KEY =
     "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
 
 
-/* =========================================================
-   ELEMENTI
-========================================================= */
-
-const main =
-    document.getElementById("main");
-
-const searchInput =
-    document.getElementById("searchInput");
+let allArtists = [];
+let currentArtist = null;
 
 
-/* =========================================================
-   HEADERS
-========================================================= */
+/* =========================
+   SUPABASE REQUEST
+========================= */
 
-function headers() {
+async function supabaseFetch(endpoint) {
 
-    return {
+    const response = await fetch(
+        SUPABASE_URL + endpoint,
+        {
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": "Bearer " + SUPABASE_KEY
+            }
+        }
+    );
 
-        "apikey": SUPABASE_KEY,
+    if (!response.ok) {
+        throw new Error(
+            "Errore Supabase: " +
+            response.status +
+            " " +
+            await response.text()
+        );
+    }
 
-        "Authorization":
-            `Bearer ${SUPABASE_KEY}`
-
-    };
-
+    return await response.json();
 }
 
 
-/* =========================================================
-   SICUREZZA HTML
-========================================================= */
+/* =========================
+   ARTISTI
+========================= */
 
-function escapeHtml(text) {
+async function loadArtists() {
 
-    return String(text ?? "")
+    const status =
+        document.getElementById("status");
 
-        .replaceAll("&", "&amp;")
+    try {
 
-        .replaceAll("<", "&lt;")
+        allArtists = await supabaseFetch(
+            "/rest/v1/artists?select=*&order=name.asc"
+        );
 
-        .replaceAll(">", "&gt;")
+        renderArtists(allArtists);
 
-        .replaceAll('"', "&quot;")
+        status.textContent =
+            `${allArtists.length} artisti`;
 
-        .replaceAll("'", "&#039;");
+    } catch (error) {
 
+        console.error(error);
+
+        status.textContent =
+            "Errore nel caricamento degli artisti.";
+    }
 }
 
 
-/* =========================================================
+function renderArtists(artists) {
+
+    const grid =
+        document.getElementById("artistsGrid");
+
+    grid.innerHTML = "";
+
+    if (!artists.length) {
+
+        grid.innerHTML =
+            "<p>Nessun artista trovato.</p>";
+
+        return;
+    }
+
+    artists.forEach(artist => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "artist-card";
+
+        card.onclick = () =>
+            showArtist(artist);
+
+        const image =
+            artist.image_url ||
+            "https://via.placeholder.com/500?text=Artist";
+
+        card.innerHTML = `
+            <img
+                src="${escapeHtml(image)}"
+                alt="${escapeHtml(artist.name)}"
+            >
+
+            <div class="artist-card-content">
+
+                <h3>
+                    ${escapeHtml(artist.name)}
+                </h3>
+
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+
+/* =========================
+   RICERCA
+========================= */
+
+document
+    .getElementById("searchInput")
+    .addEventListener("input", function() {
+
+        const query =
+            this.value
+                .toLowerCase()
+                .trim();
+
+        const filtered =
+            allArtists.filter(artist =>
+                String(artist.name || "")
+                    .toLowerCase()
+                    .includes(query)
+            );
+
+        renderArtists(filtered);
+
+        document.getElementById("status")
+            .textContent =
+            `${filtered.length} artisti`;
+    });
+
+
+/* =========================
+   ARTISTA
+========================= */
+
+async function showArtist(artist) {
+
+    currentArtist = artist;
+
+    document
+        .getElementById("artistsView")
+        .classList.add("hidden");
+
+    document
+        .getElementById("releaseView")
+        .classList.add("hidden");
+
+    document
+        .getElementById("artistView")
+        .classList.remove("hidden");
+
+
+    const header =
+        document.getElementById("artistHeader");
+
+    const image =
+        artist.image_url ||
+        "https://via.placeholder.com/500?text=Artist";
+
+
+    header.innerHTML = `
+        <div class="artist-header">
+
+            <img
+                src="${escapeHtml(image)}"
+                alt="${escapeHtml(artist.name)}"
+            >
+
+            <div>
+
+                <h2>
+                    ${escapeHtml(artist.name)}
+                </h2>
+
+                ${
+                    artist.country
+                    ? `<p><strong>Paese:</strong> ${escapeHtml(artist.country)}</p>`
+                    : ""
+                }
+
+                ${
+                    artist.area
+                    ? `<p><strong>Area:</strong> ${escapeHtml(artist.area)}</p>`
+                    : ""
+                }
+
+                ${
+                    artist.gender
+                    ? `<p><strong>Genere:</strong> ${escapeHtml(artist.gender)}</p>`
+                    : ""
+                }
+
+                ${
+                    artist.birth_date
+                    ? `<p><strong>Nascita:</strong> ${escapeHtml(artist.birth_date)}</p>`
+                    : ""
+                }
+
+                ${
+                    artist.birth_place
+                    ? `<p><strong>Luogo di nascita:</strong> ${escapeHtml(artist.birth_place)}</p>`
+                    : ""
+                }
+
+                ${
+                    artist.disambiguation
+                    ? `<p>${escapeHtml(artist.disambiguation)}</p>`
+                    : ""
+                }
+
+            </div>
+
+        </div>
+    `;
+
+
+    const container =
+        document.getElementById("releasesContainer");
+
+    container.innerHTML =
+        "<p class='status'>Caricamento discografia...</p>";
+
+
+    try {
+
+        const releases =
+            await supabaseFetch(
+                "/rest/v1/releases" +
+                "?select=*" +
+                "&artist_id=eq." +
+                encodeURIComponent(artist.id) +
+                "&order=release_date.asc.nullslast,title.asc"
+            );
+
+
+        renderReleases(releases);
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Errore nel caricamento della discografia.</p>";
+    }
+}
+
+
+/* =========================
+   DISCOGRAFIA
+========================= */
+
+function renderReleases(releases) {
+
+    const container =
+        document.getElementById("releasesContainer");
+
+    container.innerHTML = "";
+
+
+    const albums =
+        releases.filter(release =>
+            String(release.release_type || "")
+                .toLowerCase() === "album"
+        );
+
+
+    const singles =
+        releases.filter(release =>
+            String(release.release_type || "")
+                .toLowerCase() === "single"
+        );
+
+
+    const live =
+        releases.filter(release =>
+            String(release.release_type || "")
+                .toLowerCase() === "live"
+        );
+
+
+    const compilations =
+        releases.filter(release =>
+            String(release.release_type || "")
+                .toLowerCase() === "compilation"
+        );
+
+
+    renderReleaseSection(
+        container,
+        "Album",
+        albums
+    );
+
+
+    renderReleaseSection(
+        container,
+        "Singoli",
+        singles
+    );
+
+
+    renderReleaseSection(
+        container,
+        "Live",
+        live
+    );
+
+
+    renderReleaseSection(
+        container,
+        "Compilation",
+        compilations
+    );
+}
+
+
+/* =========================
+   SEZIONE RELEASE
+========================= */
+
+function renderReleaseSection(
+    container,
+    title,
+    releases
+) {
+
+    if (!releases.length) {
+        return;
+    }
+
+
+    const section =
+        document.createElement("section");
+
+    section.className =
+        "release-section";
+
+
+    const heading =
+        document.createElement("h3");
+
+    heading.textContent =
+        `${title} (${releases.length})`;
+
+
+    section.appendChild(heading);
+
+
+    const grid =
+        document.createElement("div");
+
+    grid.className =
+        "releases-grid";
+
+
+    releases.forEach(release => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "release-card";
+
+        card.onclick = () =>
+            showRelease(release);
+
+
+        const image =
+            release.cover_url ||
+            "https://via.placeholder.com/500?text=No+Cover";
+
+
+        let date = "";
+
+        if (release.release_date) {
+
+            date =
+                String(release.release_date)
+                    .substring(0, 10);
+        }
+
+
+        card.innerHTML = `
+
+            <img
+                src="${escapeHtml(image)}"
+                alt="${escapeHtml(release.title)}"
+            >
+
+            <div class="release-card-content">
+
+                <h4>
+                    ${escapeHtml(release.title)}
+                </h4>
+
+                ${
+                    date
+                    ? `<p>${escapeHtml(date)}</p>`
+                    : ""
+                }
+
+                ${
+                    release.label
+                    ? `<p>${escapeHtml(release.label)}</p>`
+                    : ""
+                }
+
+            </div>
+        `;
+
+
+        grid.appendChild(card);
+    });
+
+
+    section.appendChild(grid);
+
+    container.appendChild(section);
+}
+
+
+/* =========================
+   RELEASE DETTAGLI
+========================= */
+
+async function showRelease(release) {
+
+    document
+        .getElementById("artistView")
+        .classList.add("hidden");
+
+    document
+        .getElementById("releaseView")
+        .classList.remove("hidden");
+
+
+    const container =
+        document.getElementById("releaseDetails");
+
+
+    container.innerHTML =
+        "<p>Caricamento release...</p>";
+
+
+    try {
+
+        const tracks =
+            await supabaseFetch(
+                "/rest/v1/tracks" +
+                "?select=*" +
+                "&release_id=eq." +
+                encodeURIComponent(release.id) +
+                "&order=disc_number.asc.nullslast,track_number.asc.nullslast,id.asc"
+            );
+
+
+        renderReleaseDetails(
+            release,
+            tracks
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Errore nel caricamento della tracklist.</p>";
+    }
+}
+
+
+/* =========================
+   DETTAGLI + TRACKLIST
+========================= */
+
+function renderReleaseDetails(
+    release,
+    tracks
+) {
+
+    const container =
+        document.getElementById("releaseDetails");
+
+
+    const image =
+        release.cover_url ||
+        "https://via.placeholder.com/500?text=No+Cover";
+
+
+    let date = "";
+
+    if (release.release_date) {
+
+        date =
+            String(release.release_date)
+                .substring(0, 10);
+    }
+
+
+    let html = `
+
+        <div class="release-details">
+
+            <div class="release-main">
+
+                <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(release.title)}"
+                >
+
+                <div>
+
+                    <h2>
+                        ${escapeHtml(release.title)}
+                    </h2>
+
+                    <div class="release-meta">
+
+                        ${
+                            release.release_type
+                            ? `<p><strong>Tipo:</strong> ${escapeHtml(release.release_type)}</p>`
+                            : ""
+                        }
+
+                        ${
+                            date
+                            ? `<p><strong>Data:</strong> ${escapeHtml(date)}</p>`
+                            : ""
+                        }
+
+                        ${
+                            release.country
+                            ? `<p><strong>Paese:</strong> ${escapeHtml(release.country)}</p>`
+                            : ""
+                        }
+
+                        ${
+                            release.label
+                            ? `<p><strong>Label:</strong> ${escapeHtml(release.label)}</p>`
+                            : ""
+                        }
+
+                        ${
+                            release.catalog_number
+                            ? `<p><strong>Catalogo:</strong> ${escapeHtml(release.catalog_number)}</p>`
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tracklist">
+
+                <h3>
+                    Tracklist
+                </h3>
+    `;
+
+
+    if (!tracks.length) {
+
+        html += `
+            <p>
+                Nessuna tracklist disponibile.
+            </p>
+        `;
+
+    } else {
+
+        let currentDisc = null;
+
+
+        tracks.forEach(track => {
+
+            const disc =
+                track.disc_number || 1;
+
+
+            if (
+                currentDisc !== null &&
+                disc !== currentDisc
+            ) {
+
+                html += `
+                    <div style="height:15px;"></div>
+                `;
+            }
+
+
+            currentDisc = disc;
+
+
+            const trackNumber =
+                track.track_number || "";
+
+
+            const duration =
+                formatDuration(track.duration);
+
+
+            html += `
+
+                <div class="track">
+
+                    <div class="track-number">
+                        ${escapeHtml(String(trackNumber))}
+                    </div>
+
+                    <div>
+                        ${escapeHtml(track.title || "")}
+                    </div>
+
+                    <div class="track-duration">
+                        ${escapeHtml(duration)}
+                    </div>
+
+                </div>
+            `;
+        });
+    }
+
+
+    html += `
+
+            </div>
+
+        </div>
+    `;
+
+
+    container.innerHTML = html;
+}
+
+
+/* =========================
    DURATA
-========================================================= */
+========================= */
 
 function formatDuration(duration) {
 
@@ -377,906 +1003,68 @@ function formatDuration(duration) {
         return "";
     }
 
-    return duration;
-
+    return String(duration);
 }
 
 
-/* =========================================================
-   CARICA ARTISTI
-========================================================= */
+/* =========================
+   TORNA AGLI ARTISTI
+========================= */
 
-async function loadArtists(search = "") {
+function showArtists() {
 
-    const artistsContainer =
-        document.getElementById("artists");
+    document
+        .getElementById("artistView")
+        .classList.add("hidden");
 
-    if (!artistsContainer) {
-        return;
-    }
+    document
+        .getElementById("releaseView")
+        .classList.add("hidden");
 
-    artistsContainer.innerHTML =
-        '<p class="loading">Caricamento...</p>';
+    document
+        .getElementById("artistsView")
+        .classList.remove("hidden");
 
-    let url =
-        `${SUPABASE_URL}/rest/v1/artists?select=*&order=name.asc`;
-
-    if (search.trim() !== "") {
-
-        url +=
-            `&name=ilike.*${encodeURIComponent(search)}*`;
-
-    }
-
-    try {
-
-        const response =
-            await fetch(
-                url,
-                {
-                    headers: headers()
-                }
-            );
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Errore nella connessione a Supabase"
-            );
-
-        }
-
-        const artists =
-            await response.json();
-
-        artistsContainer.innerHTML = "";
-
-        if (artists.length === 0) {
-
-            artistsContainer.innerHTML =
-                '<p class="empty">Nessun artista trovato.</p>';
-
-            return;
-
-        }
-
-        artists.forEach(
-            artist => {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "card artist-card";
-
-                card.innerHTML = `
-
-                    ${
-                        artist.image_url
-                        ?
-                        `
-                        <img
-                            src="${escapeHtml(
-                                artist.image_url
-                            )}"
-                            alt="${escapeHtml(
-                                artist.name
-                            )}"
-                        >
-                        `
-                        :
-                        ""
-                    }
-
-                    <h3>
-                        ${escapeHtml(
-                            artist.name
-                        )}
-                    </h3>
-
-                    <p>
-                        ${escapeHtml(
-                            artist.disambiguation ||
-                            "Artist"
-                        )}
-                    </p>
-
-                `;
-
-                card.addEventListener(
-                    "click",
-                    () => loadArtistPage(
-                        artist.id
-                    )
-                );
-
-                artistsContainer.appendChild(
-                    card
-                );
-
-            }
-        );
-
-    }
-
-    catch (error) {
-
-        artistsContainer.innerHTML =
-            `
-            <p class="error">
-                ${escapeHtml(
-                    error.message
-                )}
-            </p>
-            `;
-
-    }
-
+    currentArtist = null;
 }
 
 
-/* =========================================================
-   PAGINA ARTISTA
-========================================================= */
-
-async function loadArtistPage(artistId) {
-
-    main.innerHTML =
-        '<p class="loading">Caricamento artista...</p>';
-
-    try {
-
-        /* -------------------------------------------------
-           ARTISTA
-        ------------------------------------------------- */
-
-        const artistResponse =
-            await fetch(
-
-                `${SUPABASE_URL}/rest/v1/artists?id=eq.${artistId}&select=*`,
-
-                {
-                    headers: headers()
-                }
-
-            );
-
-        if (!artistResponse.ok) {
-
-            throw new Error(
-                "Errore nel caricamento dell'artista"
-            );
-
-        }
-
-        const artists =
-            await artistResponse.json();
-
-        if (!artists.length) {
-
-            main.innerHTML =
-                "<p>Artista non trovato.</p>";
-
-            return;
-
-        }
-
-        const artist =
-            artists[0];
-
-
-        /* -------------------------------------------------
-           TUTTE LE RELEASE
-        ------------------------------------------------- */
-
-        const releasesResponse =
-            await fetch(
-
-                `${SUPABASE_URL}/rest/v1/releases?artist_id=eq.${artist.id}&select=*&order=release_date.asc`,
-
-                {
-                    headers: headers()
-                }
-
-            );
-
-        if (!releasesResponse.ok) {
-
-            throw new Error(
-                "Errore nel caricamento delle release"
-            );
-
-        }
-
-        const releases =
-            await releasesResponse.json();
-
-
-        /* -------------------------------------------------
-           DIVISIONE ALBUM / SINGOLI
-        ------------------------------------------------- */
-
-        const albums = releases.filter(
-    release =>
-        String(release.release_type || "").toLowerCase() === "album"
-);
-
-const singles = releases.filter(
-    release =>
-        String(release.release_type || "").toLowerCase() === "single"
-);
-
-const live = releases.filter(
-    release =>
-        String(release.release_type || "").toLowerCase() === "live"
-);
-
-const compilations = releases.filter(
-    release =>
-        String(release.release_type || "").toLowerCase() === "compilation"
-);
-
-
-
-        /* -------------------------------------------------
-           PAGINA
-        ------------------------------------------------- */
-
-        main.innerHTML = `
-
-            <div
-                class="back"
-                onclick="goHome()"
-            >
-                ← Torna agli artisti
-            </div>
-
-            <section class="section">
-
-                <h2>
-                    ${escapeHtml(
-                        artist.name
-                    )}
-                </h2>
-
-                <div class="artist-description">
-
-                    ${
-                        artist.disambiguation
-                        ?
-                        `
-                        <p>
-                            ${escapeHtml(
-                                artist.disambiguation
-                            )}
-                        </p>
-                        `
-                        :
-                        ""
-                    }
-
-                </div>
-
-            </section>
-
-
-            <!-- ================================
-                 ALBUM
-            ================================= -->
-
-            <section class="section">
-
-                <h2 class="section-title">
-                    Album
-                </h2>
-
-                <div
-                    id="albums"
-                    class="cards"
-                ></div>
-
-            </section>
-
-
-            <!-- ================================
-                 SINGOLI
-            ================================= -->
-
-            <section class="section">
-
-                <h2 class="section-title">
-                    Singoli
-                </h2>
-
-                <div
-                    id="singles"
-                    class="cards"
-                ></div>
-
-            </section>
-
-        `;
-
-
-        /* =================================================
-           GRIGLIA ALBUM
-        ================================================= */
-
-        const albumsContainer =
-            document.getElementById(
-                "albums"
-            );
-
-        if (albums.length === 0) {
-
-            albumsContainer.innerHTML =
-                `
-                <p class="empty">
-                    Nessun album trovato.
-                </p>
-                `;
-
-        }
-
-        else {
-
-            albums.forEach(
-                release => {
-
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
-
-                    card.className =
-                        "card";
-
-                    card.innerHTML = `
-
-                        ${
-                            release.cover_url
-                            ?
-                            `
-                            <img
-                                src="${escapeHtml(
-                                    release.cover_url
-                                )}"
-                                alt="${escapeHtml(
-                                    release.title
-                                )}"
-                            >
-                            `
-                            :
-                            ""
-                        }
-
-                        <h3>
-                            ${escapeHtml(
-                                release.title
-                            )}
-                        </h3>
-
-                        <p>
-                            ${escapeHtml(
-                                release.release_date ||
-                                ""
-                            )}
-                        </p>
-
-                    `;
-
-                    card.addEventListener(
-                        "click",
-                        () => loadReleasePage(
-                            release.id
-                        )
-                    );
-
-                    albumsContainer.appendChild(
-                        card
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           GRIGLIA SINGOLI
-        ================================================= */
-
-        const singlesContainer =
-            document.getElementById(
-                "singles"
-            );
-
-        if (singles.length === 0) {
-
-            singlesContainer.innerHTML =
-                `
-                <p class="empty">
-                    Nessun singolo trovato.
-                </p>
-                `;
-
-        }
-
-        else {
-
-            singles.forEach(
-                single => {
-
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
-
-                    card.className =
-                        "card";
-
-                    card.innerHTML = `
-
-                        ${
-                            single.cover_url
-                            ?
-                            `
-                            <img
-                                src="${escapeHtml(
-                                    single.cover_url
-                                )}"
-                                alt="${escapeHtml(
-                                    single.title
-                                )}"
-                            >
-                            `
-                            :
-                            ""
-                        }
-
-                        <h3>
-                            ${escapeHtml(
-                                single.title
-                            )}
-                        </h3>
-
-                        <p>
-                            ${escapeHtml(
-                                single.release_date ||
-                                ""
-                            )}
-                        </p>
-
-                    `;
-
-                    card.addEventListener(
-                        "click",
-                        () => loadReleasePage(
-                            single.id
-                        )
-                    );
-
-                    singlesContainer.appendChild(
-                        card
-                    );
-
-                }
-            );
-
-        }
-
-    }
-
-    catch (error) {
-
-        main.innerHTML =
-            `
-            <p class="error">
-                ${escapeHtml(
-                    error.message
-                )}
-            </p>
-            `;
-
-    }
-
-}
-
-
-/* =========================================================
-   PAGINA RELEASE
-========================================================= */
-
-async function loadReleasePage(releaseId) {
-
-    main.innerHTML =
-        '<p class="loading">Caricamento release...</p>';
-
-    try {
-
-        /* -------------------------------------------------
-           RELEASE
-        ------------------------------------------------- */
-
-        const releaseResponse =
-            await fetch(
-
-                `${SUPABASE_URL}/rest/v1/releases?id=eq.${releaseId}&select=*`,
-
-                {
-                    headers: headers()
-                }
-
-            );
-
-        if (!releaseResponse.ok) {
-
-            throw new Error(
-                "Errore nel caricamento della release"
-            );
-
-        }
-
-        const releases =
-            await releaseResponse.json();
-
-        if (!releases.length) {
-
-            main.innerHTML =
-                "<p>Release non trovata.</p>";
-
-            return;
-
-        }
-
-        const release =
-            releases[0];
-
-
-        /* -------------------------------------------------
-           TRACKLIST
-        ------------------------------------------------- */
-
-        const tracksResponse =
-            await fetch(
-
-                `${SUPABASE_URL}/rest/v1/tracks?release_id=eq.${release.id}&select=*&order=disc_number.asc,track_number.asc`,
-
-                {
-                    headers: headers()
-                }
-
-            );
-
-        if (!tracksResponse.ok) {
-
-            throw new Error(
-                "Errore nel caricamento della tracklist"
-            );
-
-        }
-
-        const tracks =
-            await tracksResponse.json();
-
-
-        /* -------------------------------------------------
-           PAGINA RELEASE
-        ------------------------------------------------- */
-
-        main.innerHTML = `
-
-            <div
-                class="back"
-                onclick="goBackToArtist(
-                    ${release.artist_id}
-                )"
-            >
-                ← Torna all'artista
-            </div>
-
-            <section class="section">
-
-                <div class="album-header">
-
-                    ${
-                        release.cover_url
-                        ?
-                        `
-                        <img
-                            class="album-cover"
-                            src="${escapeHtml(
-                                release.cover_url
-                            )}"
-                            alt="${escapeHtml(
-                                release.title
-                            )}"
-                        >
-                        `
-                        :
-                        ""
-                    }
-
-                    <div class="album-info">
-
-                        <h2>
-                            ${escapeHtml(
-                                release.title
-                            )}
-                        </h2>
-
-                        ${
-                            release.release_type
-                            ?
-                            `
-                            <p>
-                                Tipo:
-                                ${escapeHtml(
-                                    release.release_type
-                                )}
-                            </p>
-                            `
-                            :
-                            ""
-                        }
-
-                        ${
-                            release.release_date
-                            ?
-                            `
-                            <p>
-                                Data:
-                                ${escapeHtml(
-                                    release.release_date
-                                )}
-                            </p>
-                            `
-                            :
-                            ""
-                        }
-
-                        ${
-                            release.country
-                            ?
-                            `
-                            <p>
-                                Paese:
-                                ${escapeHtml(
-                                    release.country
-                                )}
-                            </p>
-                            `
-                            :
-                            ""
-                        }
-
-                        ${
-                            release.label
-                            ?
-                            `
-                            <p>
-                                Etichetta:
-                                ${escapeHtml(
-                                    release.label
-                                )}
-                            </p>
-                            `
-                            :
-                            ""
-                        }
-
-                        ${
-                            release.catalog_number
-                            ?
-                            `
-                            <p>
-                                Catalogo:
-                                ${escapeHtml(
-                                    release.catalog_number
-                                )}
-                            </p>
-                            `
-                            :
-                            ""
-                        }
-
-                    </div>
-
-                </div>
-
-
-                <h2 class="section-title">
-                    Tracklist
-                </h2>
-
-
-                <div class="tracklist">
-
-                    ${
-                        tracks.length
-                        ?
-
-                        tracks.map(
-                            track => `
-
-                                <div class="track">
-
-                                    <div
-                                        class="track-number"
-                                    >
-                                        ${escapeHtml(
-                                            track.track_number
-                                        )}
-                                    </div>
-
-                                    <div
-                                        class="track-title"
-                                    >
-                                        ${escapeHtml(
-                                            track.title
-                                        )}
-                                    </div>
-
-                                    <div
-                                        class="duration"
-                                    >
-                                        ${formatDuration(
-                                            track.duration
-                                        )}
-                                    </div>
-
-                                </div>
-
-                            `
-                        ).join("")
-
-                        :
-
-                        `
-                        <div class="track">
-
-                            <div class="track-title">
-
-                                Nessuna traccia
-                                disponibile.
-
-                            </div>
-
-                        </div>
-                        `
-
-                    }
-
-                </div>
-
-            </section>
-
-        `;
-
-    }
-
-    catch (error) {
-
-        main.innerHTML =
-            `
-            <p class="error">
-                ${escapeHtml(
-                    error.message
-                )}
-            </p>
-            `;
-
-    }
-
-}
-
-
-/* =========================================================
+/* =========================
    TORNA ALL'ARTISTA
-========================================================= */
+========================= */
 
-function goBackToArtist(artistId) {
+function backToArtist() {
 
-    loadArtistPage(
-        artistId
-    );
+    document
+        .getElementById("releaseView")
+        .classList.add("hidden");
 
+    document
+        .getElementById("artistView")
+        .classList.remove("hidden");
 }
 
 
-/* =========================================================
-   TORNA HOME
-========================================================= */
+/* =========================
+   SICUREZZA HTML
+========================= */
 
-function goHome() {
+function escapeHtml(value) {
 
-    window.history.pushState(
-        {},
-        "",
-        window.location.pathname
-    );
-
-    main.innerHTML = `
-
-        <section class="section">
-
-            <h2 class="section-title">
-                Artisti
-            </h2>
-
-            <div
-                id="artists"
-                class="cards"
-            >
-
-                <p class="loading">
-                    Caricamento artisti...
-                </p>
-
-            </div>
-
-        </section>
-
-    `;
-
-    loadArtists();
-
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
-/* =========================================================
-   RICERCA
-========================================================= */
+/* =========================
+   AVVIO
+========================= */
 
-searchInput.addEventListener(
-    "input",
-    () => {
-
-        loadArtists(
-            searchInput.value
-        );
-
-    }
-);
-
-
-/* =========================================================
-   URL
-========================================================= */
-
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
-const artistId =
-    params.get("artist");
-
-const releaseId =
-    params.get("release");
-
-
-if (releaseId) {
-
-    loadReleasePage(
-        releaseId
-    );
-
-}
-
-else if (artistId) {
-
-    loadArtistPage(
-        artistId
-    );
-
-}
-
-else {
-
-    loadArtists();
-
-}
+loadArtists();
 
 </script>
 
