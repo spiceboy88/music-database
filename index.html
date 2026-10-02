@@ -1,10 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Music Database</title>
@@ -83,7 +81,6 @@
                 auto-fill,
                 minmax(190px, 1fr)
             );
-
             gap: 20px;
         }
 
@@ -95,7 +92,6 @@
             transition:
                 transform 0.2s,
                 background 0.2s;
-
             overflow: hidden;
         }
 
@@ -263,9 +259,7 @@
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -286,7 +280,6 @@
     </div>
 
 </header>
-
 
 <main id="main">
 
@@ -311,9 +304,7 @@
 
 </main>
 
-
 <script>
-
 
 /* =========================================================
    SUPABASE
@@ -321,7 +312,6 @@
 
 const SUPABASE_URL =
     "https://rueoqgbqvaumqdexhmtl.supabase.co";
-
 
 const SUPABASE_KEY =
     "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
@@ -333,7 +323,6 @@ const SUPABASE_KEY =
 
 const main =
     document.getElementById("main");
-
 
 const searchInput =
     document.getElementById("searchInput");
@@ -383,35 +372,12 @@ function escapeHtml(text) {
 ========================================================= */
 
 function formatDuration(duration) {
+
     if (!duration) {
         return "";
     }
 
     return duration;
-}
-    if (duration) {
-        return duration;
-    }
-
-    if (!durationMs) {
-        return "";
-    }
-
-    const totalSeconds = Math.floor(durationMs / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-
-    return `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-
-
-    const seconds =
-        String(
-            totalSeconds % 60
-        ).padStart(2, "0");
-
-
-    return `${minutes}:${seconds}`;
 
 }
 
@@ -425,19 +391,15 @@ async function loadArtists(search = "") {
     const artistsContainer =
         document.getElementById("artists");
 
-
     if (!artistsContainer) {
         return;
     }
 
-
     artistsContainer.innerHTML =
         '<p class="loading">Caricamento...</p>';
 
-
     let url =
         `${SUPABASE_URL}/rest/v1/artists?select=*&order=name.asc`;
-
 
     if (search.trim() !== "") {
 
@@ -445,7 +407,6 @@ async function loadArtists(search = "") {
             `&name=ilike.*${encodeURIComponent(search)}*`;
 
     }
-
 
     try {
 
@@ -457,7 +418,6 @@ async function loadArtists(search = "") {
                 }
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -466,13 +426,10 @@ async function loadArtists(search = "") {
 
         }
 
-
         const artists =
             await response.json();
 
-
         artistsContainer.innerHTML = "";
-
 
         if (artists.length === 0) {
 
@@ -483,17 +440,14 @@ async function loadArtists(search = "") {
 
         }
 
-
         artists.forEach(
             artist => {
 
                 const card =
                     document.createElement("div");
 
-
                 card.className =
                     "card artist-card";
-
 
                 card.innerHTML = `
 
@@ -529,14 +483,12 @@ async function loadArtists(search = "") {
 
                 `;
 
-
                 card.addEventListener(
                     "click",
                     () => loadArtistPage(
                         artist.id
                     )
                 );
-
 
                 artistsContainer.appendChild(
                     card
@@ -546,7 +498,6 @@ async function loadArtists(search = "") {
         );
 
     }
-
 
     catch (error) {
 
@@ -573,7 +524,6 @@ async function loadArtistPage(artistId) {
     main.innerHTML =
         '<p class="loading">Caricamento artista...</p>';
 
-
     try {
 
         /* -------------------------------------------------
@@ -591,7 +541,6 @@ async function loadArtistPage(artistId) {
 
             );
 
-
         if (!artistResponse.ok) {
 
             throw new Error(
@@ -600,10 +549,8 @@ async function loadArtistPage(artistId) {
 
         }
 
-
         const artists =
             await artistResponse.json();
-
 
         if (!artists.length) {
 
@@ -613,7 +560,6 @@ async function loadArtistPage(artistId) {
             return;
 
         }
-
 
         const artist =
             artists[0];
@@ -634,7 +580,6 @@ async function loadArtistPage(artistId) {
 
             );
 
-
         if (!releasesResponse.ok) {
 
             throw new Error(
@@ -642,7 +587,6 @@ async function loadArtistPage(artistId) {
             );
 
         }
-
 
         const releases =
             await releasesResponse.json();
@@ -659,7 +603,6 @@ async function loadArtistPage(artistId) {
                         release.release_type || ""
                     ).toLowerCase() === "album"
             );
-
 
         const singles =
             releases.filter(
@@ -682,7 +625,6 @@ async function loadArtistPage(artistId) {
             >
                 ← Torna agli artisti
             </div>
-
 
             <section class="section">
 
@@ -732,7 +674,7 @@ async function loadArtistPage(artistId) {
 
 
             <!-- ================================
-                 SINGLES & PROMO
+                 SINGOLI
             ================================= -->
 
             <section class="section">
@@ -760,7 +702,6 @@ async function loadArtistPage(artistId) {
                 "albums"
             );
 
-
         if (albums.length === 0) {
 
             albumsContainer.innerHTML =
@@ -772,7 +713,6 @@ async function loadArtistPage(artistId) {
 
         }
 
-
         else {
 
             albums.forEach(
@@ -783,10 +723,8 @@ async function loadArtistPage(artistId) {
                             "div"
                         );
 
-
                     card.className =
                         "card";
-
 
                     card.innerHTML = `
 
@@ -807,13 +745,11 @@ async function loadArtistPage(artistId) {
                             ""
                         }
 
-
                         <h3>
                             ${escapeHtml(
                                 release.title
                             )}
                         </h3>
-
 
                         <p>
                             ${escapeHtml(
@@ -824,14 +760,12 @@ async function loadArtistPage(artistId) {
 
                     `;
 
-
                     card.addEventListener(
                         "click",
                         () => loadReleasePage(
                             release.id
                         )
                     );
-
 
                     albumsContainer.appendChild(
                         card
@@ -852,7 +786,6 @@ async function loadArtistPage(artistId) {
                 "singles"
             );
 
-
         if (singles.length === 0) {
 
             singlesContainer.innerHTML =
@@ -864,7 +797,6 @@ async function loadArtistPage(artistId) {
 
         }
 
-
         else {
 
             singles.forEach(
@@ -875,10 +807,8 @@ async function loadArtistPage(artistId) {
                             "div"
                         );
 
-
                     card.className =
                         "card";
-
 
                     card.innerHTML = `
 
@@ -899,13 +829,11 @@ async function loadArtistPage(artistId) {
                             ""
                         }
 
-
                         <h3>
                             ${escapeHtml(
                                 single.title
                             )}
                         </h3>
-
 
                         <p>
                             ${escapeHtml(
@@ -916,21 +844,12 @@ async function loadArtistPage(artistId) {
 
                     `;
 
-
-                    /*
-                     * I singoli sono anch'essi
-                     * release, quindi possono
-                     * aprire la stessa pagina
-                     * dettagliata degli album.
-                     */
-
                     card.addEventListener(
                         "click",
                         () => loadReleasePage(
                             single.id
                         )
                     );
-
 
                     singlesContainer.appendChild(
                         card
@@ -942,7 +861,6 @@ async function loadArtistPage(artistId) {
         }
 
     }
-
 
     catch (error) {
 
@@ -969,7 +887,6 @@ async function loadReleasePage(releaseId) {
     main.innerHTML =
         '<p class="loading">Caricamento release...</p>';
 
-
     try {
 
         /* -------------------------------------------------
@@ -987,7 +904,6 @@ async function loadReleasePage(releaseId) {
 
             );
 
-
         if (!releaseResponse.ok) {
 
             throw new Error(
@@ -996,10 +912,8 @@ async function loadReleasePage(releaseId) {
 
         }
 
-
         const releases =
             await releaseResponse.json();
-
 
         if (!releases.length) {
 
@@ -1009,7 +923,6 @@ async function loadReleasePage(releaseId) {
             return;
 
         }
-
 
         const release =
             releases[0];
@@ -1030,7 +943,6 @@ async function loadReleasePage(releaseId) {
 
             );
 
-
         if (!tracksResponse.ok) {
 
             throw new Error(
@@ -1038,7 +950,6 @@ async function loadReleasePage(releaseId) {
             );
 
         }
-
 
         const tracks =
             await tracksResponse.json();
@@ -1059,12 +970,9 @@ async function loadReleasePage(releaseId) {
                 ← Torna all'artista
             </div>
 
-
             <section class="section">
 
-
                 <div class="album-header">
-
 
                     ${
                         release.cover_url
@@ -1084,16 +992,13 @@ async function loadReleasePage(releaseId) {
                         ""
                     }
 
-
                     <div class="album-info">
-
 
                         <h2>
                             ${escapeHtml(
                                 release.title
                             )}
                         </h2>
-
 
                         ${
                             release.release_type
@@ -1110,7 +1015,6 @@ async function loadReleasePage(releaseId) {
                             ""
                         }
 
-
                         ${
                             release.release_date
                             ?
@@ -1125,7 +1029,6 @@ async function loadReleasePage(releaseId) {
                             :
                             ""
                         }
-
 
                         ${
                             release.country
@@ -1142,7 +1045,6 @@ async function loadReleasePage(releaseId) {
                             ""
                         }
 
-
                         ${
                             release.label
                             ?
@@ -1157,7 +1059,6 @@ async function loadReleasePage(releaseId) {
                             :
                             ""
                         }
-
 
                         ${
                             release.catalog_number
@@ -1174,7 +1075,6 @@ async function loadReleasePage(releaseId) {
                             ""
                         }
 
-
                     </div>
 
                 </div>
@@ -1187,7 +1087,6 @@ async function loadReleasePage(releaseId) {
 
                 <div class="tracklist">
 
-
                     ${
                         tracks.length
                         ?
@@ -1197,7 +1096,6 @@ async function loadReleasePage(releaseId) {
 
                                 <div class="track">
 
-
                                     <div
                                         class="track-number"
                                     >
@@ -1205,7 +1103,6 @@ async function loadReleasePage(releaseId) {
                                             track.track_number
                                         )}
                                     </div>
-
 
                                     <div
                                         class="track-title"
@@ -1215,22 +1112,20 @@ async function loadReleasePage(releaseId) {
                                         )}
                                     </div>
 
-
                                     <div
                                         class="duration"
                                     >
-                                        ${formatDuration(track.duration))}
+                                        ${formatDuration(
+                                            track.duration
+                                        )}
                                     </div>
-
 
                                 </div>
 
                             `
                         ).join("")
 
-
                         :
-
 
                         `
                         <div class="track">
@@ -1247,16 +1142,13 @@ async function loadReleasePage(releaseId) {
 
                     }
 
-
                 </div>
-
 
             </section>
 
         `;
 
     }
-
 
     catch (error) {
 
@@ -1299,7 +1191,6 @@ function goHome() {
         window.location.pathname
     );
 
-
     main.innerHTML = `
 
         <section class="section">
@@ -1307,7 +1198,6 @@ function goHome() {
             <h2 class="section-title">
                 Artisti
             </h2>
-
 
             <div
                 id="artists"
@@ -1323,7 +1213,6 @@ function goHome() {
         </section>
 
     `;
-
 
     loadArtists();
 
@@ -1355,10 +1244,8 @@ const params =
         window.location.search
     );
 
-
 const artistId =
     params.get("artist");
-
 
 const releaseId =
     params.get("release");
@@ -1372,7 +1259,6 @@ if (releaseId) {
 
 }
 
-
 else if (artistId) {
 
     loadArtistPage(
@@ -1380,7 +1266,6 @@ else if (artistId) {
     );
 
 }
-
 
 else {
 
@@ -1390,7 +1275,5 @@ else {
 
 </script>
 
-
 </body>
 </html>
-```
