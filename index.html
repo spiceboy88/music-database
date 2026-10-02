@@ -382,7 +382,13 @@ function escapeHtml(text) {
    DURATA
 ========================================================= */
 
-function formatDuration(duration, durationMs) {
+function formatDuration(duration) {
+    if (!duration) {
+        return "";
+    }
+
+    return duration;
+}
     if (duration) {
         return duration;
     }
@@ -1213,7 +1219,7 @@ async function loadReleasePage(releaseId) {
                                     <div
                                         class="duration"
                                     >
-                                        ${formatDuration(track.duration, track.duration_ms)}
+                                        ${formatDuration(track.duration))}
                                     </div>
 
 
