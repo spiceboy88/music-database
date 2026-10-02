@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -550,6 +549,15 @@ function normalizeReleaseType(type) {
         return "Remix Album";
     }
 
+    if (
+        value === "promo only" ||
+        value === "promo" ||
+        value === "promotional" ||
+        value === "promotional only"
+    ) {
+        return "Promo Only";
+    }
+
     return value
         ? String(type)
         : "Album";
@@ -786,6 +794,8 @@ function renderReleases(releases) {
 
     const remixAlbums = [];
 
+    const promoOnly = [];
+
 
     releases.forEach(release => {
 
@@ -817,6 +827,10 @@ function renderReleases(releases) {
         } else if (category === "Remix Album") {
 
             remixAlbums.push(release);
+
+        } else if (category === "Promo Only") {
+
+            promoOnly.push(release);
 
         } else {
 
@@ -853,6 +867,11 @@ function renderReleases(releases) {
     renderReleaseSection(
         "Remix Album",
         remixAlbums
+    );
+
+    renderReleaseSection(
+        "Promo Only",
+        promoOnly
     );
 }
 
@@ -1331,4 +1350,3 @@ loadArtists();
 
 </body>
 </html>
-```
