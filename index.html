@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -264,6 +263,7 @@
         }
 
         @media (max-width: 700px) {
+
             header h1 {
                 font-size: 26px;
             }
@@ -304,48 +304,87 @@
 <body>
 
 <header>
+
     <h1>Music Database</h1>
 
     <div class="search-box">
+
         <input
             type="text"
             id="searchInput"
             placeholder="Cerca un artista..."
             autocomplete="off"
         >
+
     </div>
+
 </header>
+
 
 <main>
 
-    <!-- ARTISTI -->
+    <!-- =========================
+         ARTISTI
+    ========================== -->
+
     <section id="artistsView">
-        <div id="artistsMessage" class="message">
+
+        <div
+            id="artistsMessage"
+            class="message"
+        >
             Caricamento artisti...
         </div>
 
-        <div id="artistsGrid" class="artists-grid"></div>
+        <div
+            id="artistsGrid"
+            class="artists-grid"
+        ></div>
+
     </section>
 
-    <!-- ARTISTA -->
-    <section id="artistView" class="hidden">
 
-        <button class="back-button" id="backToArtists">
+    <!-- =========================
+         ARTISTA
+    ========================== -->
+
+    <section
+        id="artistView"
+        class="hidden"
+    >
+
+        <button
+            class="back-button"
+            id="backToArtists"
+        >
             ← Tutti gli artisti
         </button>
 
+
         <div id="artistHeader"></div>
+
 
         <div id="releasesContainer"></div>
 
     </section>
 
-    <!-- RELEASE -->
-    <section id="releaseView" class="hidden">
 
-        <button class="back-button" id="backToArtist">
+    <!-- =========================
+         RELEASE
+    ========================== -->
+
+    <section
+        id="releaseView"
+        class="hidden"
+    >
+
+        <button
+            class="back-button"
+            id="backToArtist"
+        >
             ← Torna all'artista
         </button>
+
 
         <div id="releaseDetail"></div>
 
@@ -353,72 +392,124 @@
 
 </main>
 
+
 <script>
-
-const SUPABASE_URL =
-    "https://rueoqgbqvaumqdexhmtl.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
-
-
-const artistsView =
-    document.getElementById("artistsView");
-
-const artistView =
-    document.getElementById("artistView");
-
-const releaseView =
-    document.getElementById("releaseView");
-
-const artistsGrid =
-    document.getElementById("artistsGrid");
-
-const artistsMessage =
-    document.getElementById("artistsMessage");
-
-const artistHeader =
-    document.getElementById("artistHeader");
-
-const releasesContainer =
-    document.getElementById("releasesContainer");
-
-const releaseDetail =
-    document.getElementById("releaseDetail");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const backToArtists =
-    document.getElementById("backToArtists");
-
-const backToArtist =
-    document.getElementById("backToArtist");
-
-
-let currentArtist = null;
 
 
 /* =========================
    SUPABASE
 ========================= */
 
+const SUPABASE_URL =
+    "https://rueoqgbqvaumqdexhmtl.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_Dhram7JGseCL4JJeGavFQQ_N0UHxwum";
+
+
+/* =========================
+   ELEMENTI
+========================= */
+
+const artistsView =
+    document.getElementById(
+        "artistsView"
+    );
+
+
+const artistView =
+    document.getElementById(
+        "artistView"
+    );
+
+
+const releaseView =
+    document.getElementById(
+        "releaseView"
+    );
+
+
+const artistsGrid =
+    document.getElementById(
+        "artistsGrid"
+    );
+
+
+const artistsMessage =
+    document.getElementById(
+        "artistsMessage"
+    );
+
+
+const artistHeader =
+    document.getElementById(
+        "artistHeader"
+    );
+
+
+const releasesContainer =
+    document.getElementById(
+        "releasesContainer"
+    );
+
+
+const releaseDetail =
+    document.getElementById(
+        "releaseDetail"
+    );
+
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+const backToArtists =
+    document.getElementById(
+        "backToArtists"
+    );
+
+
+const backToArtist =
+    document.getElementById(
+        "backToArtist"
+    );
+
+
+let currentArtist = null;
+
+
+/* =========================
+   SUPABASE FETCH
+========================= */
+
 async function supabaseFetch(path) {
 
-    const response = await fetch(
-        SUPABASE_URL + path,
-        {
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": "Bearer " + SUPABASE_KEY
+    const response =
+        await fetch(
+            SUPABASE_URL + path,
+            {
+                headers: {
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY
+
+                }
             }
-        }
-    );
+        );
+
 
     if (!response.ok) {
 
         const errorText =
             await response.text();
+
 
         throw new Error(
             "Supabase error: " +
@@ -427,6 +518,7 @@ async function supabaseFetch(path) {
             errorText
         );
     }
+
 
     return await response.json();
 }
@@ -438,16 +530,41 @@ async function supabaseFetch(path) {
 
 function escapeHtml(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
         return "";
     }
 
+
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
@@ -460,7 +577,9 @@ function placeholderImage(text) {
     return (
         "https://placehold.co/600x600/" +
         "eeeeee/555555?text=" +
-        encodeURIComponent(text || "No Image")
+        encodeURIComponent(
+            text || "No Image"
+        )
     );
 }
 
@@ -469,35 +588,63 @@ function placeholderImage(text) {
    DURATA
 ========================= */
 
-function formatDuration(duration) {
+function formatDuration(
+    duration
+) {
 
     if (!duration) {
+
         return "";
     }
+
 
     return duration;
 }
 
 
 /* =========================
-   DATE
+   DATA
 ========================= */
 
-function formatReleaseDate(date) {
+function formatReleaseDate(
+    date
+) {
 
     if (!date) {
+
         return "";
     }
 
-    const value = String(date);
 
-    if (/^\d{4}-01-01$/.test(value)) {
-        return value.substring(0, 4);
+    const value =
+        String(date);
+
+
+    if (
+        /^\d{4}-01-01$/.test(
+            value
+        )
+    ) {
+
+        return value.substring(
+            0,
+            4
+        );
     }
 
-    if (/^\d{4}-\d{2}-01$/.test(value)) {
-        return value.substring(0, 7);
+
+    if (
+        /^\d{4}-\d{2}-01$/.test(
+            value
+        )
+    ) {
+
+        return value.substring(
+            0,
+            7
+        );
     }
+
 
     return value;
 }
@@ -507,48 +654,69 @@ function formatReleaseDate(date) {
    NORMALIZZA CATEGORIA
 ========================= */
 
-function normalizeReleaseType(type) {
+function normalizeReleaseType(
+    type
+) {
 
     const value =
         String(type || "")
             .trim()
             .toLowerCase();
 
-    if (value === "album") {
+
+    if (
+        value === "album"
+    ) {
+
         return "Album";
     }
+
 
     if (
         value === "single" ||
         value === "singolo" ||
         value === "singoli"
     ) {
+
         return "Singoli";
     }
 
-    if (value === "live") {
+
+    if (
+        value === "live"
+    ) {
+
         return "Live";
     }
 
-    if (value === "compilation") {
+
+    if (
+        value === "compilation"
+    ) {
+
         return "Compilation";
     }
+
 
     if (
         value === "ost" ||
         value === "soundtrack" ||
         value === "soundtrack album"
     ) {
+
         return "OST";
     }
+
 
     if (
         value === "remix album" ||
         value === "remix" ||
         value === "remixes"
     ) {
+
         return "Remix Album";
     }
+
 
     if (
         value === "promo only" ||
@@ -556,12 +724,30 @@ function normalizeReleaseType(type) {
         value === "promotional" ||
         value === "promotional only"
     ) {
+
         return "Promo Only";
     }
 
-    if (value === "re-release") {
+
+    if (
+        value === "re-release"
+    ) {
+
         return "Re-release";
     }
+
+
+    /* =========================
+       PRE-MADONNA
+    ========================= */
+
+    if (
+        value === "pre-madonna"
+    ) {
+
+        return "Pre-Madonna";
+    }
+
 
     return value
         ? String(type)
@@ -577,17 +763,27 @@ async function loadArtists() {
 
     try {
 
-        const artists = await supabaseFetch(
-            "/rest/v1/artists" +
-            "?select=*" +
-            "&order=name.asc"
+        const artists =
+            await supabaseFetch(
+
+                "/rest/v1/artists" +
+                "?select=*" +
+                "&order=name.asc"
+
+            );
+
+
+        renderArtists(
+            artists
         );
 
-        renderArtists(artists);
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         artistsMessage.textContent =
             "Errore nel caricamento degli artisti.";
@@ -599,54 +795,88 @@ async function loadArtists() {
    RENDER ARTISTI
 ========================= */
 
-function renderArtists(artists) {
+function renderArtists(
+    artists
+) {
 
-    artistsMessage.classList.add("hidden");
+    artistsMessage.classList.add(
+        "hidden"
+    );
 
-    artistsGrid.innerHTML = "";
+
+    artistsGrid.innerHTML =
+        "";
+
 
     if (!artists.length) {
 
         artistsMessage.textContent =
             "Nessun artista trovato.";
 
-        artistsMessage.classList.remove("hidden");
+
+        artistsMessage.classList.remove(
+            "hidden"
+        );
+
 
         return;
     }
 
-    artists.forEach(artist => {
 
-        const card =
-            document.createElement("div");
+    artists.forEach(
+        artist => {
 
-        card.className = "artist-card";
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-        const image =
-            artist.image_url ||
-            placeholderImage(artist.name);
 
-        card.innerHTML = `
-            <img
-                src="${escapeHtml(image)}"
-                alt="${escapeHtml(artist.name)}"
-                loading="lazy"
-            >
+            card.className =
+                "artist-card";
 
-            <div class="artist-card-info">
-                <h3>
-                    ${escapeHtml(artist.name)}
-                </h3>
-            </div>
-        `;
 
-        card.addEventListener(
-            "click",
-            () => showArtist(artist)
-        );
+            const image =
+                artist.image_url ||
+                placeholderImage(
+                    artist.name
+                );
 
-        artistsGrid.appendChild(card);
-    });
+
+            card.innerHTML = `
+
+                <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(artist.name)}"
+                    loading="lazy"
+                >
+
+                <div class="artist-card-info">
+
+                    <h3>
+                        ${escapeHtml(
+                            artist.name
+                        )}
+                    </h3>
+
+                </div>
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () =>
+                    showArtist(
+                        artist
+                    )
+            );
+
+
+            artistsGrid.appendChild(
+                card
+            );
+        }
+    );
 }
 
 
@@ -654,26 +884,47 @@ function renderArtists(artists) {
    MOSTRA ARTISTA
 ========================= */
 
-async function showArtist(artist) {
+async function showArtist(
+    artist
+) {
 
-    currentArtist = artist;
+    currentArtist =
+        artist;
 
-    artistsView.classList.add("hidden");
 
-    releaseView.classList.add("hidden");
+    artistsView.classList.add(
+        "hidden"
+    );
 
-    artistView.classList.remove("hidden");
+
+    releaseView.classList.add(
+        "hidden"
+    );
+
+
+    artistView.classList.remove(
+        "hidden"
+    );
+
 
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
+
 
     const image =
         artist.image_url ||
-        placeholderImage(artist.name);
+        placeholderImage(
+            artist.name
+        );
+
 
     artistHeader.innerHTML = `
+
         <div class="artist-header">
 
             <img
@@ -684,50 +935,94 @@ async function showArtist(artist) {
             <div>
 
                 <h2>
-                    ${escapeHtml(artist.name)}
+                    ${escapeHtml(
+                        artist.name
+                    )}
                 </h2>
+
 
                 <div class="artist-info">
 
                     ${
                         artist.country
-                        ? `<div><strong>Paese:</strong>
-                           ${escapeHtml(artist.country)}</div>`
+                        ? `
+                            <div>
+                                <strong>Paese:</strong>
+                                ${escapeHtml(
+                                    artist.country
+                                )}
+                            </div>
+                        `
                         : ""
                     }
+
 
                     ${
                         artist.area
-                        ? `<div><strong>Area:</strong>
-                           ${escapeHtml(artist.area)}</div>`
+                        ? `
+                            <div>
+                                <strong>Area:</strong>
+                                ${escapeHtml(
+                                    artist.area
+                                )}
+                            </div>
+                        `
                         : ""
                     }
+
 
                     ${
                         artist.gender
-                        ? `<div><strong>Genere:</strong>
-                           ${escapeHtml(artist.gender)}</div>`
+                        ? `
+                            <div>
+                                <strong>Genere:</strong>
+                                ${escapeHtml(
+                                    artist.gender
+                                )}
+                            </div>
+                        `
                         : ""
                     }
+
 
                     ${
                         artist.birth_date
-                        ? `<div><strong>Nascita:</strong>
-                           ${escapeHtml(artist.birth_date)}</div>`
+                        ? `
+                            <div>
+                                <strong>Nascita:</strong>
+                                ${escapeHtml(
+                                    artist.birth_date
+                                )}
+                            </div>
+                        `
                         : ""
                     }
+
 
                     ${
                         artist.birth_place
-                        ? `<div><strong>Luogo di nascita:</strong>
-                           ${escapeHtml(artist.birth_place)}</div>`
+                        ? `
+                            <div>
+                                <strong>Luogo di nascita:</strong>
+                                ${escapeHtml(
+                                    artist.birth_place
+                                )}
+                            </div>
+                        `
                         : ""
                     }
 
+
                     ${
                         artist.disambiguation
-                        ? `<div><strong>Info:</strong>
-                           ${escapeHtml(artist.disambiguation)}</div>`
+                        ? `
+                            <div>
+                                <strong>Info:</strong>
+                                ${escapeHtml(
+                                    artist.disambiguation
+                                )}
+                            </div>
+                        `
                         : ""
                     }
 
@@ -738,32 +1033,49 @@ async function showArtist(artist) {
         </div>
     `;
 
+
     releasesContainer.innerHTML =
-        `<div class="message">
-            Caricamento discografia...
-        </div>`;
+        `
+            <div class="message">
+                Caricamento discografia...
+            </div>
+        `;
+
 
     try {
 
         const releases =
             await supabaseFetch(
+
                 "/rest/v1/releases" +
                 "?select=*" +
                 "&artist_id=eq." +
-                encodeURIComponent(artist.id) +
+                encodeURIComponent(
+                    artist.id
+                ) +
                 "&order=release_date.asc.nullslast,title.asc"
+
             );
 
-        renderReleases(releases);
+
+        renderReleases(
+            releases
+        );
+
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         releasesContainer.innerHTML =
-            `<div class="message">
-                Errore nel caricamento della discografia.
-            </div>`;
+            `
+                <div class="message">
+                    Errore nel caricamento della discografia.
+                </div>
+            `;
     }
 }
 
@@ -772,16 +1084,23 @@ async function showArtist(artist) {
    RENDER DISCOGRAFIA
 ========================= */
 
-function renderReleases(releases) {
+function renderReleases(
+    releases
+) {
 
-    releasesContainer.innerHTML = "";
+    releasesContainer.innerHTML =
+        "";
+
 
     if (!releases.length) {
 
         releasesContainer.innerHTML =
-            `<div class="message">
-                Nessuna release trovata.
-            </div>`;
+            `
+                <div class="message">
+                    Nessuna release trovata.
+                </div>
+            `;
+
 
         return;
     }
@@ -803,91 +1122,164 @@ function renderReleases(releases) {
 
     const reReleases = [];
 
+    const preMadonna = [];
 
-    releases.forEach(release => {
 
-        const category =
-            normalizeReleaseType(
-                release.release_type
-            );
+    releases.forEach(
+        release => {
 
-        if (category === "Album") {
+            const category =
+                normalizeReleaseType(
+                    release.release_type
+                );
 
-            albums.push(release);
 
-        } else if (category === "Singoli") {
+            if (
+                category === "Album"
+            ) {
 
-            singles.push(release);
+                albums.push(
+                    release
+                );
 
-        } else if (category === "Live") {
 
-            live.push(release);
+            } else if (
+                category === "Singoli"
+            ) {
 
-        } else if (category === "Compilation") {
+                singles.push(
+                    release
+                );
 
-            compilations.push(release);
 
-        } else if (category === "OST") {
+            } else if (
+                category === "Live"
+            ) {
 
-            ost.push(release);
+                live.push(
+                    release
+                );
 
-        } else if (category === "Remix Album") {
 
-            remixAlbums.push(release);
+            } else if (
+                category === "Compilation"
+            ) {
 
-        } else if (category === "Promo Only") {
+                compilations.push(
+                    release
+                );
 
-            promoOnly.push(release);
 
-        } else if (category === "Re-release") {
+            } else if (
+                category === "OST"
+            ) {
 
-            reReleases.push(release);
+                ost.push(
+                    release
+                );
 
-        } else {
 
-            albums.push(release);
+            } else if (
+                category === "Remix Album"
+            ) {
+
+                remixAlbums.push(
+                    release
+                );
+
+
+            } else if (
+                category === "Promo Only"
+            ) {
+
+                promoOnly.push(
+                    release
+                );
+
+
+            } else if (
+                category === "Re-release"
+            ) {
+
+                reReleases.push(
+                    release
+                );
+
+
+            } else if (
+                category === "Pre-Madonna"
+            ) {
+
+                preMadonna.push(
+                    release
+                );
+
+
+            } else {
+
+                albums.push(
+                    release
+                );
+            }
         }
-    });
+    );
 
+
+    /* =========================
+       ORDINE SEZIONI
+    ========================== */
 
     renderReleaseSection(
         "Album",
         albums
     );
 
+
     renderReleaseSection(
         "Singoli",
         singles
     );
+
 
     renderReleaseSection(
         "Live",
         live
     );
 
+
     renderReleaseSection(
         "Compilation",
         compilations
     );
+
 
     renderReleaseSection(
         "OST",
         ost
     );
 
+
     renderReleaseSection(
         "Remix Album",
         remixAlbums
     );
+
 
     renderReleaseSection(
         "Promo Only",
         promoOnly
     );
 
+
     renderReleaseSection(
         "Re-release",
         reReleases
+    );
+
+
+    renderReleaseSection(
+        "Pre-Madonna",
+        preMadonna
     );
 }
 
@@ -902,92 +1294,133 @@ function renderReleaseSection(
 ) {
 
     if (!releases.length) {
+
         return;
     }
 
+
     const section =
-        document.createElement("section");
+        document.createElement(
+            "section"
+        );
+
 
     section.className =
         "release-section";
 
+
     const heading =
-        document.createElement("h2");
+        document.createElement(
+            "h2"
+        );
+
 
     heading.textContent =
         title;
 
-    section.appendChild(heading);
+
+    section.appendChild(
+        heading
+    );
 
 
     const grid =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     grid.className =
         "releases-grid";
 
 
-    releases.forEach(release => {
+    releases.forEach(
+        release => {
 
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "release-card";
-
-
-        const image =
-            release.cover_url ||
-            placeholderImage(release.title);
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        card.innerHTML = `
+            card.className =
+                "release-card";
 
-            <img
-                src="${escapeHtml(image)}"
-                alt="${escapeHtml(release.title)}"
-                loading="lazy"
-            >
 
-            <div class="release-card-info">
+            const image =
+                release.cover_url ||
+                placeholderImage(
+                    release.title
+                );
 
-                <h3>
-                    ${escapeHtml(release.title)}
-                </h3>
 
-                <div class="release-date">
-                    ${escapeHtml(
-                        formatReleaseDate(
-                            release.release_date
-                        )
-                    )}
+            card.innerHTML = `
+
+                <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(release.title)}"
+                    loading="lazy"
+                >
+
+                <div class="release-card-info">
+
+                    <h3>
+                        ${escapeHtml(
+                            release.title
+                        )}
+                    </h3>
+
+
+                    <div class="release-date">
+
+                        ${escapeHtml(
+                            formatReleaseDate(
+                                release.release_date
+                            )
+                        )}
+
+                    </div>
+
+
+                    <div class="release-type">
+
+                        ${escapeHtml(
+                            normalizeReleaseType(
+                                release.release_type
+                            )
+                        )}
+
+                    </div>
+
                 </div>
 
-                <div class="release-type">
-                    ${escapeHtml(
-                        normalizeReleaseType(
-                            release.release_type
-                        )
-                    )}
-                </div>
-
-            </div>
-        `;
+            `;
 
 
-        card.addEventListener(
-            "click",
-            () => showRelease(release)
-        );
+            card.addEventListener(
+                "click",
+                () =>
+                    showRelease(
+                        release
+                    )
+            );
 
 
-        grid.appendChild(card);
-    });
+            grid.appendChild(
+                card
+            );
+        }
+    );
 
 
-    section.appendChild(grid);
+    section.appendChild(
+        grid
+    );
 
-    releasesContainer.appendChild(section);
+
+    releasesContainer.appendChild(
+        section
+    );
 }
 
 
@@ -995,21 +1428,34 @@ function renderReleaseSection(
    MOSTRA RELEASE
 ========================= */
 
-async function showRelease(release) {
+async function showRelease(
+    release
+) {
 
-    artistView.classList.add("hidden");
+    artistView.classList.add(
+        "hidden"
+    );
 
-    releaseView.classList.remove("hidden");
+
+    releaseView.classList.remove(
+        "hidden"
+    );
+
 
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
 
 
     const image =
         release.cover_url ||
-        placeholderImage(release.title);
+        placeholderImage(
+            release.title
+        );
 
 
     releaseDetail.innerHTML = `
@@ -1023,72 +1469,105 @@ async function showRelease(release) {
                     alt="${escapeHtml(release.title)}"
                 >
 
+
                 <div>
 
                     <h2>
-                        ${escapeHtml(release.title)}
+                        ${escapeHtml(
+                            release.title
+                        )}
                     </h2>
+
 
                     <div class="release-meta">
 
                         <div>
-                            <strong>Tipo:</strong>
+
+                            <strong>
+                                Tipo:
+                            </strong>
+
                             ${escapeHtml(
                                 normalizeReleaseType(
                                     release.release_type
                                 )
                             )}
+
                         </div>
+
 
                         ${
                             release.release_date
                             ? `
                                 <div>
-                                    <strong>Data:</strong>
+
+                                    <strong>
+                                        Data:
+                                    </strong>
+
                                     ${escapeHtml(
                                         formatReleaseDate(
                                             release.release_date
                                         )
                                     )}
+
                                 </div>
                             `
                             : ""
                         }
+
 
                         ${
                             release.country
                             ? `
                                 <div>
-                                    <strong>Paese:</strong>
+
+                                    <strong>
+                                        Paese:
+                                    </strong>
+
                                     ${escapeHtml(
                                         release.country
                                     )}
+
                                 </div>
                             `
                             : ""
                         }
+
 
                         ${
                             release.label
                             ? `
                                 <div>
-                                    <strong>Label:</strong>
+
+                                    <strong>
+                                        Label:
+                                    </strong>
+
                                     ${escapeHtml(
                                         release.label
                                     )}
+
                                 </div>
                             `
                             : ""
                         }
 
+
                         ${
                             release.catalog_number
                             ? `
                                 <div>
-                                    <strong>Catalogo:</strong>
+
+                                    <strong>
+                                        Catalogo:
+                                    </strong>
+
                                     ${escapeHtml(
                                         release.catalog_number
                                     )}
+
                                 </div>
                             `
                             : ""
@@ -1100,8 +1579,11 @@ async function showRelease(release) {
 
             </div>
 
-            <div id="tracklistContainer"
-                 class="tracklist">
+
+            <div
+                id="tracklistContainer"
+                class="tracklist"
+            >
 
                 <div class="message">
                     Caricamento tracklist...
@@ -1117,26 +1599,41 @@ async function showRelease(release) {
 
         const tracks =
             await supabaseFetch(
+
                 "/rest/v1/tracks" +
                 "?select=*" +
                 "&release_id=eq." +
-                encodeURIComponent(release.id) +
+                encodeURIComponent(
+                    release.id
+                ) +
                 "&order=disc_number.asc,track_number.asc"
+
             );
 
 
-        renderTracks(tracks);
+        renderTracks(
+            tracks
+        );
+
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         document.getElementById(
             "tracklistContainer"
         ).innerHTML = `
+
             <div class="message">
-                Errore nel caricamento della tracklist.
+
+                Errore nel caricamento
+                della tracklist.
+
             </div>
+
         `;
     }
 }
@@ -1146,107 +1643,149 @@ async function showRelease(release) {
    TRACKLIST
 ========================= */
 
-function renderTracks(tracks) {
+function renderTracks(
+    tracks
+) {
 
     const container =
         document.getElementById(
             "tracklistContainer"
         );
 
+
     if (!tracks.length) {
 
         container.innerHTML = `
+
             <div class="message">
+
                 Nessuna traccia disponibile.
+
             </div>
+
         `;
+
 
         return;
     }
 
 
-    let html = `
-        <h3>Tracklist</h3>
-    `;
+    let html =
+        `
+            <h3>
+                Tracklist
+            </h3>
+        `;
 
 
-    let currentDisc = null;
+    let currentDisc =
+        null;
 
 
-    tracks.forEach(track => {
+    tracks.forEach(
+        track => {
 
-        const discNumber =
-            track.disc_number || 1;
-
-
-        if (discNumber !== currentDisc) {
-
-            if (currentDisc !== null) {
-                html += `
-                    </div>
-                `;
-            }
-
-            currentDisc =
-                discNumber;
+            const discNumber =
+                track.disc_number ||
+                1;
 
 
             if (
-                tracks.some(
-                    t =>
-                        (t.disc_number || 1) !== 1
-                )
+                discNumber !==
+                currentDisc
             ) {
 
-                html += `
-                    <h4>
-                        Disc ${escapeHtml(
-                            discNumber
-                        )}
-                    </h4>
+                if (
+                    currentDisc !== null
+                ) {
 
-                    <div>
-                `;
-            } else {
+                    html += `
+                        </div>
+                    `;
+                }
 
-                html += `
-                    <div>
-                `;
+
+                currentDisc =
+                    discNumber;
+
+
+                if (
+                    tracks.some(
+                        t =>
+                            (
+                                t.disc_number ||
+                                1
+                            ) !== 1
+                    )
+                ) {
+
+                    html += `
+
+                        <h4>
+
+                            Disc
+                            ${escapeHtml(
+                                discNumber
+                            )}
+
+                        </h4>
+
+                        <div>
+
+                    `;
+
+                } else {
+
+                    html += `
+                        <div>
+                    `;
+                }
             }
+
+
+            html += `
+
+                <div class="track">
+
+                    <div class="track-number">
+
+                        ${escapeHtml(
+                            track.track_number ||
+                            ""
+                        )}
+
+                    </div>
+
+
+                    <div class="track-title">
+
+                        ${escapeHtml(
+                            track.title
+                        )}
+
+                    </div>
+
+
+                    <div class="track-duration">
+
+                        ${escapeHtml(
+                            formatDuration(
+                                track.duration
+                            )
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
         }
+    );
 
 
-        html += `
-
-            <div class="track">
-
-                <div class="track-number">
-                    ${escapeHtml(
-                        track.track_number || ""
-                    )}
-                </div>
-
-                <div class="track-title">
-                    ${escapeHtml(
-                        track.title
-                    )}
-                </div>
-
-                <div class="track-duration">
-                    ${escapeHtml(
-                        formatDuration(
-                            track.duration
-                        )
-                    )}
-                </div>
-
-            </div>
-
-        `;
-    });
-
-
-    if (currentDisc !== null) {
+    if (
+        currentDisc !== null
+    ) {
 
         html += `
             </div>
@@ -1283,22 +1822,33 @@ searchInput.addEventListener(
 
             const artists =
                 await supabaseFetch(
+
                     "/rest/v1/artists" +
                     "?select=*" +
                     "&name=ilike.*" +
-                    encodeURIComponent(query) +
+                    encodeURIComponent(
+                        query
+                    ) +
                     "*&order=name.asc"
+
                 );
 
 
-            renderArtists(artists);
+            renderArtists(
+                artists
+            );
+
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
+
 
             artistsMessage.textContent =
                 "Errore nella ricerca.";
+
 
             artistsMessage.classList.remove(
                 "hidden"
@@ -1309,7 +1859,7 @@ searchInput.addEventListener(
 
 
 /* =========================
-   BACK
+   BACK ARTISTI
 ========================= */
 
 backToArtists.addEventListener(
@@ -1320,21 +1870,31 @@ backToArtists.addEventListener(
             "hidden"
         );
 
+
         releaseView.classList.add(
             "hidden"
         );
+
 
         artistsView.classList.remove(
             "hidden"
         );
 
+
         window.scrollTo({
+
             top: 0,
+
             behavior: "smooth"
+
         });
     }
 );
 
+
+/* =========================
+   BACK ARTISTA
+========================= */
 
 backToArtist.addEventListener(
     "click",
@@ -1344,13 +1904,18 @@ backToArtist.addEventListener(
             "hidden"
         );
 
+
         artistView.classList.remove(
             "hidden"
         );
 
+
         window.scrollTo({
+
             top: 0,
+
             behavior: "smooth"
+
         });
     }
 );
@@ -1366,4 +1931,3 @@ loadArtists();
 
 </body>
 </html>
-```
